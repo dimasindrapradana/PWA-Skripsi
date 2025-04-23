@@ -23,16 +23,30 @@ class MaterialResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+        ->schema([
+            Forms\Components\Select::make('category_id')
+                ->relationship('category', 'name') // Pastikan 'name' adalah nama kolom pada model Category
+                ->required()
+                ->label('Kategori'),
+
+            Forms\Components\TextInput::make('title')
+                ->required()
+                ->maxLength(255)
+                ->label('Judul Materi'),
+
+            Forms\Components\Textarea::make('content')
+                ->required()
+                ->label('Konten'),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('category.name')->label('Kategori'),
+                Tables\Columns\TextColumn::make('title')->label('Judul Materi'),
+                Tables\Columns\TextColumn::make('content')->limit(50)->label('Konten'),
             ])
             ->filters([
                 //

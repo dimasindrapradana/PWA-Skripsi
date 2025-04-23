@@ -4,7 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class option extends Model
+class Option extends Model
 {
-    //
+        public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
+    protected $guarded =[];
 }
