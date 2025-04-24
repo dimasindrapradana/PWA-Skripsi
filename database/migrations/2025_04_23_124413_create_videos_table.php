@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('material_id')->constrained('materials');
-            $table->string('video_url');
-            $table->text('description')->nullable();
-            $table->timestamps();
+                $table->foreignId('material_id')->constrained('materials');
+                $table->string('video_url');
+                $table->morphs('videoable');
+                $table->text('description')->nullable();
+                $table->timestamps();
         });
     }
 

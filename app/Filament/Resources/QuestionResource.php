@@ -32,11 +32,34 @@ class QuestionResource extends Resource
             Forms\Components\Textarea::make('question_text')
                 ->required()
                 ->label('Pertanyaan'),
+            
+            // Tambahkan bagian gambar
+            Forms\Components\Repeater::make('images')
+                ->relationship()
+                ->label('Gambar (opsional)')
+                ->schema([
+                    Forms\Components\FileUpload::make('image_url')
+                        ->image()
+                        ->directory('images')
+                        ->nullable(),
+                ])
+                ->columns(1),
 
+            // // Tambahkan bagian video
+            // Forms\Components\Repeater::make('videos')
+            //     ->relationship()
+            //     ->label('Video (opsional)')
+            //     ->schema([
+            //         Forms\Components\FileUpload::make('video_url')
+            //             ->directory('videos')
+            //             ->acceptedFileTypes(['video/mp4', 'video/avi', 'video/mkv'])
+            //             ->nullable(),
+            //     ])
+            //     ->columns(1),
             Forms\Components\TextInput::make('question_type')
-                ->default('multiple_choice')
-                ->disabled()
-                ->label('Tipe Pertanyaan'),
+            ->default('multiple_choice')
+            ->disabled()
+            ->label('Tipe Pertanyaan'),
 
             Forms\Components\Repeater::make('options')
                 ->relationship()
@@ -81,7 +104,7 @@ class QuestionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            \App\Filament\Resources\QuestionResource\RelationManagers\OptionsRelationManager::class,
         ];
     }
 

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('material_id')->constrained('materials');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->text('description')->nullable();
+            $table->morphs('imageable');
             $table->timestamps();
         });
     }
@@ -25,14 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('test_results');
-        Schema::dropIfExists('options');
-        Schema::dropIfExists('questions');
-        Schema::dropIfExists('tests');
         Schema::dropIfExists('images');
-        Schema::dropIfExists('videos');
-        Schema::dropIfExists('materials');
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('users');
+        
     }
 };

@@ -15,5 +15,10 @@ class Test extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
     protected $guarded=[];
 }

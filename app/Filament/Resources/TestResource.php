@@ -18,7 +18,9 @@ class TestResource extends Resource
     protected static ?string $model = Test::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Quiz';
+
+    protected static ?string $label = 'Bank Soal';
+
 
     public static function form(Form $form): Form
     {
@@ -42,6 +44,8 @@ class TestResource extends Resource
                 ->nullable()
                 ->numeric()
                 ->label('Batas Waktu (menit)'),
+
+            
         ]);
     }
 
@@ -53,6 +57,10 @@ class TestResource extends Resource
                 Tables\Columns\TextColumn::make('title')->label('Judul Kuis'),
                 Tables\Columns\TextColumn::make('description')->limit(50)->label('Deskripsi'),
                 Tables\Columns\TextColumn::make('time_limit')->label('Batas Waktu'),
+                Tables\Columns\TextColumn::make('questions_count')
+                     ->counts('questions')
+                     ->label('Jumlah Soal')
+                     ->sortable(),
             ])
             ->filters([
                 //
@@ -70,7 +78,7 @@ class TestResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            \App\Filament\Resources\TestResource\RelationManagers\QuestionsRelationManager::class,
         ];
     }
 
