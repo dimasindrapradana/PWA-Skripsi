@@ -20,15 +20,20 @@ class QuestionsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Textarea::make('question_text')->required()->label('Pertanyaan'),
+                Forms\Components\Textarea::make('question_text')->required()
+                    ->label('Pertanyaan')
+                    ->placeholder("Masukan pertanyaan ... "),
                 Forms\Components\Repeater::make('images')
-                ->relationship()
+                ->relationship('images')
                 ->label('Gambar (opsional)')
                 ->schema([
                     Forms\Components\FileUpload::make('image_url')
                         ->image()
                         ->directory('images')
                         ->nullable(),
+                    Forms\Components\TextInput::make('description')->label("Nama Gambar")  
+                        ->placeholder("Masukan nama gambar ... ")
+                        ->required()
                 ])
                 ->columns(1),
                 Forms\Components\Repeater::make('options')
@@ -52,6 +57,7 @@ class QuestionsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('question_text')->limit(50)->label('Pertanyaan'),
                 Tables\Columns\TextColumn::make('options_count')->counts('options')->label('Jumlah Opsi'),
+                Tables\Columns\TextColumn::make('images_count')->counts('images')->label('Jumlah Gambar'),
             ])
             ->filters([
                 //

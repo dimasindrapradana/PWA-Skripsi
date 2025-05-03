@@ -28,9 +28,9 @@ class Question extends Model
             return $this->morphMany(Image::class, 'imageable');
         }
     
-        // public function videos()
-        // {
-        //     return $this->morphMany(Video::class, 'videoable');
-        // }
+        public function videos()
+        {
+            return $this->morphMany(Video::class, 'videoable');
+        }
     protected $guarded =[];
 }

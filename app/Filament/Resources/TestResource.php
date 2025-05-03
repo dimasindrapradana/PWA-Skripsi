@@ -19,7 +19,7 @@ class TestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $label = 'Bank Soal';
+    protected static ?string $label = 'Buat Quis';
 
 
     public static function form(Form $form): Form
@@ -38,7 +38,7 @@ class TestResource extends Resource
 
             Forms\Components\Textarea::make('description')
                 ->nullable()
-                ->label('Deskripsi'),
+                ->label('Keterangan'),
 
             Forms\Components\TextInput::make('time_limit')
                 ->nullable()
@@ -53,20 +53,24 @@ class TestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('material.title')->label('Materi'),
-                Tables\Columns\TextColumn::make('title')->label('Judul Kuis'),
+                Tables\Columns\TextColumn::make('material.title')->label('Materi')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('title')->label('Judul Kuis')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('description')->limit(50)->label('Deskripsi'),
                 Tables\Columns\TextColumn::make('time_limit')->label('Batas Waktu'),
                 Tables\Columns\TextColumn::make('questions_count')
                      ->counts('questions')
                      ->label('Jumlah Soal')
                      ->sortable(),
+                
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

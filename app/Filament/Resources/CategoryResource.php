@@ -26,10 +26,10 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->placeholder("Masukan kategori Materi ... ")
+                    ->placeholder("Masukan kategori materi ... ")
                     ->required(),
                 TextInput::make('description')
-                    ->placeholder("Masukan Deskripsi Kategori ... ")
+                    ->placeholder("Masukan deskripsi Kategori ... ")
                     ->required(),
             ]);
     }

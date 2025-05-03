@@ -18,7 +18,8 @@ class QuestionResource extends Resource
     protected static ?string $model = Question::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Quiz';
+    protected static ?string $navigationGroup = 'Manajemen Quiz';
+    protected static ?string $label = 'List Pertanyaan';
 
     public static function form(Form $form): Form
     {
@@ -33,7 +34,7 @@ class QuestionResource extends Resource
                 ->required()
                 ->label('Pertanyaan'),
             
-            // Tambahkan bagian gambar
+
             Forms\Components\Repeater::make('images')
                 ->relationship()
                 ->label('Gambar (opsional)')
@@ -42,20 +43,11 @@ class QuestionResource extends Resource
                         ->image()
                         ->directory('images')
                         ->nullable(),
+                    Forms\Components\TextInput::make('description')->label("Nama Gambar")  
+                    ->required()
                 ])
                 ->columns(1),
 
-            // // Tambahkan bagian video
-            // Forms\Components\Repeater::make('videos')
-            //     ->relationship()
-            //     ->label('Video (opsional)')
-            //     ->schema([
-            //         Forms\Components\FileUpload::make('video_url')
-            //             ->directory('videos')
-            //             ->acceptedFileTypes(['video/mp4', 'video/avi', 'video/mkv'])
-            //             ->nullable(),
-            //     ])
-            //     ->columns(1),
             Forms\Components\TextInput::make('question_type')
             ->default('multiple_choice')
             ->disabled()
@@ -76,6 +68,18 @@ class QuestionResource extends Resource
                 ->defaultItems(4)
                 ->minItems(2)
                 ->maxItems(6),
+
+                Forms\Components\Repeater::make('videos')
+                    ->relationship()
+                    ->label('Video (opsional)')
+                 ->schema([
+                Forms\Components\FileUpload::make('video_url')
+                    ->acceptedFileTypes(['video/mp4', 'video/avi', 'video/mkv'])
+                    ->nullable()
+                    ->label('URL Video')
+                    ->directory('videos'),
+    ])
+    ->columns(1)
         ]);
     }
 
@@ -83,10 +87,12 @@ class QuestionResource extends Resource
     {
         return $table
             ->columns([
-            Tables\Columns\TextColumn::make('test.title')->label('Kuis'),
+            Tables\Columns\TextColumn::make('test.title')->label('Kuis')
+            ->searchable(),
             Tables\Columns\TextColumn::make('question_text')->limit(50)->label('Soal'),
             Tables\Columns\TextColumn::make('question_type')->label('Tipe'),
             Tables\Columns\TextColumn::make('options_count')->counts('options')->label('Jumlah Opsi'),
+            Tables\Columns\TextColumn::make('images_count')->counts('images')->label('Jumlah Gambar'),
             ])
             ->filters([
                 //

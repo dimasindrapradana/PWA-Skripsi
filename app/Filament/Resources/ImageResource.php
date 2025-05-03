@@ -18,13 +18,16 @@ class ImageResource extends Resource
     protected static ?string $model = Image::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Media';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('description')
+                ->label("Nama Gambar")
+                ->placeholder("Masukan nama gambar ... ")
+                ->required()
             ]);
     }
 
@@ -32,13 +35,28 @@ class ImageResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\Textcolumn::make('description')
+                ->label("Nama Gambar")   
+                ->searchable(),
+            
+                Tables\Columns\TextColumn::make('imageable_title')
+                ->label('Materi')
+                ->getStateUsing(function ($record) {
+                    // Cek apakah relasi adalah ke model Material
+                    if ($record->imageable_type === \App\Models\Material::class) {
+                        return $record->imageable?->title ?? '-';
+                    }
+            
+                    return '-'; 
+                })
+              
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

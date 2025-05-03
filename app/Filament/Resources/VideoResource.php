@@ -18,13 +18,21 @@ class VideoResource extends Resource
     protected static ?string $model = Video::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-film';
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Media';
+    protected static ?string $label = 'List Video';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
+        ->schema([
+                Forms\Components\TextInput::make('video_url')
+                ->url()
+                ->placeholder("Masukan link video...")
+                ->required(),
+                Forms\Components\TextInput::make('description')->label("Judul Video") 
+                ->placeholder("Masukan judul video ... ") 
+                ->required()
+
             ]);
     }
 
@@ -32,13 +40,28 @@ class VideoResource extends Resource
     {
         return $table
             ->columns([
-                //
+
+            Tables\Columns\Textcolumn::make('description')
+            ->label("Judul Video")   
+            ->searchable(),
+
+            Tables\Columns\TextColumn::make('videoable.title')
+                ->label('Materi')
+                ->sortable()
+                ->searchable(),
+            
+            Tables\Columns\TextColumn::make('video_url')
+                ->label('Video URL')
+                ->copyable()
+                ->wrap(),
+               
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
