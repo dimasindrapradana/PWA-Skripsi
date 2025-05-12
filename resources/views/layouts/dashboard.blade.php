@@ -1,4 +1,4 @@
-<!-- filepath: resources/views/layouts/dashboard.blade.php -->
+
 @extends('layouts.app')
 
 @section('title', 'Dashboard Siswa')

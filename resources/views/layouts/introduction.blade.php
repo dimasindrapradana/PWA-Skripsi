@@ -1,4 +1,4 @@
-<!-- filepath: resources/views/layouts/introduction.blade.php -->
+
 @extends('layouts.app')
 
 @section('title', 'Pengantar Materi')

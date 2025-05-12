@@ -5,11 +5,9 @@
 
 @section('content')
 <div class="material-page">
-    <!-- Header -->
       @include('components.material-navbar')
    
     <div class="material-body">
-        <!-- Konten utama -->
         <main class="material-main">
             <h1 class="material-title">Pengenalan Pra Produksi</h1>
             <div class="material-video">Video</div>
@@ -22,7 +20,6 @@
                 <a href="#" class="nav-next">Next</a>
             </div>
         </main>
-        <!-- Sidebar -->
         <aside class="material-sidebar-popup hidden" id="materialSidebar">
         <div class="sidebar-popup-overlay" id="sidebarOverlay"></div>
         <div class="sidebar-popup-content">

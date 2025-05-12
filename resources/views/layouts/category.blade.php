@@ -1,4 +1,4 @@
-<!-- filepath: resources/views/layouts/category.blade.php -->
+
 @extends('layouts.app')
 
 @section('title', 'Kategori Materi')
@@ -10,8 +10,6 @@
     <main class="flex-grow p-4 sm:p-6">
         <h1 class="text-xl sm:text-2xl font-bold mb-4">Kategori Materi</h1>
         <p class="mb-6 text-base sm:text-lg">Pilih kategori untuk memulai pembelajaran fotografi.</p>
-
-        <!-- Kategori: Vertikal, mirip Dicoding/Coursera -->
         <div class="category-list">
             <section class="category-card">
                 <h2 class="category-title">Pra Produksi</h2>
