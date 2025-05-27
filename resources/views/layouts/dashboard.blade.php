@@ -8,7 +8,7 @@
     @include('components.navbar')
 
     <main class="flex-grow p-4 sm:p-6">
-        <h1 class="text-xl sm:text-2xl font-bold mb-4 text-white drop-shadow">Selamat Datang, Siswa!</h1>
+        <h1 class="text-xl sm:text-2xl font-bold mb-4 text-white drop-shadow">Selamat datang, {{ auth()->user()->name }}!</h1>
         <p class="mb-6 text-base sm:text-lg text-white drop-shadow">Pilih kategori materi untuk memulai pembelajaran fotografi.</p>
 
         <div class="category-list">

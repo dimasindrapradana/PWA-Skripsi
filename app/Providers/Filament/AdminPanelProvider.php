@@ -18,6 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Models\User;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -28,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(action: LoginCustom::class)
-            ->registration( )
+            ->registration(action: \App\Filament\Pages\Auth\RegisterCustom::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -57,4 +58,9 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+        public function canAccessPanel(User $user): bool
+        {
+        return $user->role === 'admin'; 
+        }
+    
 }

@@ -98,7 +98,7 @@ class MaterialResource extends Resource
                             ->danger()
                             ->send();
                         // return false; 
-                        abort(403, 'Materi ini sedang digunakan didalam test');
+                        abort(403, 'Mohon hapus quis yang terkait terlebih dahulu');
                     }
                 }),
             ])

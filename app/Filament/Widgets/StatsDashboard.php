@@ -13,15 +13,20 @@ class StatsDashboard extends BaseWidget
 {
     protected function getStats(): array
     {
-        $countUser = User::count();
+        
+        $countUser = User::where('role', 'user')->count();
+        $countAdmin = User::where('role', 'admin')->count();
         $countTest = Test::count();
         $countCategory = Category::count();
         $countMaterial = Material::count();
         
         return [
-            Stat::make('Jumlah Pengguna', $countUser)
-                ->description('Total Pengguna')
+             Stat::make('Jumlah Siswa', $countUser)
+                ->description('User dengan role siswa')
                 ->color('success'),
+             Stat::make('Jumlah Admin', $countAdmin)
+                ->description('User dengan role admin')
+                ->color('info'),
             Stat::make('Jumlah Quis', $countTest)
                 ->description('Total kuis yang tersedia')
                 ->color('success'),

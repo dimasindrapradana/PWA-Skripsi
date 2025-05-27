@@ -47,7 +47,19 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function ($record) {
+                        if ($record->materials()->exists()) {
+                        \Filament\Notifications\Notification::make()
+                            ->title('Gagal Menghapus')
+                            ->body('Mohon Hapus Materi Yang Terkait Terlebih Dahulu')
+                            ->danger()
+                            ->send();
+                        // return false; 
+                        abort(403, 'Mohon Hapus Materi Yang Terkait Terlebih Dahulu');
+                
+                    }
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

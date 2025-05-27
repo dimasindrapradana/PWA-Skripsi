@@ -5,11 +5,16 @@ namespace App\Filament\Pages\Auth;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\Auth\Login;
-use Filament\Pages\Page;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class LoginCustom extends Login
 {
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     protected function getForms(): array
     {
         return [
@@ -24,28 +29,50 @@ class LoginCustom extends Login
             ),
         ];
     }
+
     protected function getLoginFormComponent(): Component
     {
-        return TextInput::make(name: 'login')
-            ->label(__(key: 'Nama/ Email'))
-            // ->email()
+        return TextInput::make('login')
+            ->label('Nama/ Email')
             ->required()
             ->autocomplete()
             ->autofocus()
             ->extraInputAttributes(['tabindex' => 1]);
     }
+
     protected function getCredentialsFromFormData(array $data): array
     {
-        $login_type = filter_var(value: $data['login'], filter: FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         return [
             $login_type => $data['login'],
             'password' => $data['password'],
         ];
     }
+
     protected function throwFailureValidationException(): never
     {
         throw ValidationException::withMessages([
             'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
         ]);
     }
+
+    protected function getRedirectUrl(): string
+    {
+        $user = Auth::user(); 
+
+        if ($user->role === 'admin') {
+            return route('filament.admin.pages.dashboard');
+        }
+
+        if ($user->role === 'user') {
+            return route('user.dashboard');
+        }
+
+        return '/';
+    }
+    public static function registerNavigationItems(): array
+    {
+    return [];
+    }
+
 }

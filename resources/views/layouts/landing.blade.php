@@ -18,7 +18,9 @@
             <span class="text-lg font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
         </div>
         <button class="bg-white text-black font-semibold px-6 py-2 rounded-full shadow hover:bg-gray-200 transition">
+           <a href="/admin/login" class="bg-white text-black font-semibold px-6 py-2 rounded-full shadow hover:bg-gray-200 transition">
             GET STARTED
+            </a>
         </button>
     </main>
 

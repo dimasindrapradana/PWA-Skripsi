@@ -18,7 +18,7 @@ class QuestionResource extends Resource
     protected static ?string $model = Question::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Manajemen Quiz';
+    protected static ?string $navigationGroup = 'Resource Quiz';
     protected static ?string $label = 'List Pertanyaan';
 
     public static function form(Form $form): Form
@@ -102,7 +102,7 @@ class QuestionResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

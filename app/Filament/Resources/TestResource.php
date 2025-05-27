@@ -19,7 +19,8 @@ class TestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $label = 'Buat Quis';
+
+    protected static ?string $label = 'Buat Kuis';
 
 
     public static function form(Form $form): Form
