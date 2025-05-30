@@ -1,28 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Selamat Datang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <style>
+        body {
+            background-color: #111827;
+            color: #f9fafb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-@extends('layouts.app')
+        .landing-container {
+            background-color: #1f2937;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
 
-@section('title', 'Landing Page')
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
 
-@section('content')
-<body class="bg-indigo-200 min-h-screen flex flex-col">
+        .login-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.2s ease-in-out;
+        }
 
-    <!-- Navbar -->
-    <nav class="bg-gray-800 text-white px-4 py-3 flex justify-between items-center">
-        <button class="bg-gray-600 px-4 py-1 rounded text-sm">LOGO</button>
-        <button class="bg-gray-600 px-4 py-1 rounded text-sm">SIGN IN</button>
-    </nav>
+        .btn-siswa {
+            background-color: #3b82f6;
+            color: white;
+        }
 
-    <!-- Hero Section -->
-    <main class="flex-grow flex flex-col justify-center items-center bg-gray-700 text-white text-center px-4">
-        <div class="bg-gray-300 text-black w-full max-w-xl h-64 flex items-center justify-center mb-6">
-            <span class="text-lg font-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-        </div>
-        <button class="bg-white text-black font-semibold px-6 py-2 rounded-full shadow hover:bg-gray-200 transition">
-           <a href="/admin/login" class="bg-white text-black font-semibold px-6 py-2 rounded-full shadow hover:bg-gray-200 transition">
-            GET STARTED
-            </a>
-        </button>
-    </main>
+        .btn-siswa:hover {
+            background-color: #2563eb;
+        }
 
+        .btn-guru {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-guru:hover {
+            background-color: #059669;
+        }
+
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .login-btn {
+                font-size: 0.95rem;
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <h1>Selamat Datang</h1>
+        <a href="{{ route('login.user') }}" class="login-btn btn-siswa">Login Siswa</a>
+        <a href="{{ route('filament.admin.auth.login') }}" class="login-btn btn-guru">Login Guru / Admin</a>
+    </div>
 </body>
-@endsection
+</html>

@@ -1,9 +1,11 @@
 <!-- filepath: resources/views/components/material-navbar.blade.php -->
 <nav class="material-header">
-    <a href="#" class="header-back" title="Kembali">&lt;</a>
+    <a href="{{ route('kategori.show', $material->category->slug) }}" class="header-back" title="Kembali">&lt;</a>
     <div class="header-actions">
-        <form id="materialSearchForm" class="header-search-form" autocomplete="off">
-            <input type="text" class="header-search-input hidden" placeholder="Cari materi..." />
+        <form id="materialSearchForm" class="relative" autocomplete="off">
+            <input type="text" id="searchInput"
+                class="hidden sm:block border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
+                placeholder="Cari materi...">
         </form>
         <button type="button" class="header-search" id="searchToggle" title="Cari">
             <!-- Search Icon SVG -->

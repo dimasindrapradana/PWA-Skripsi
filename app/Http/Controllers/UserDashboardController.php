@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Category;
 
 use Illuminate\Http\Request;
 
@@ -8,10 +9,9 @@ class UserDashboardController extends Controller
 {
     public function index()
     {
-        // if (auth()->user()->role !== 'user') {
-        //     abort(403);
-        // }
+    
+        $categories = Category::all();
 
-        return view('layouts.dashboard'); // pastikan file ini ada
+        return view('layouts.dashboard', compact('categories')); 
     }
 }

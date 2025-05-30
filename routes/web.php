@@ -6,6 +6,8 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\Auth\UserLoginController;
 use App\Http\Controllers\Auth\UserRegisterController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MaterialController;
 
 // Register route
 Route::get('/register-custom', [RegisterCustomController::class, 'show'])->name('register.custom.show');
@@ -21,15 +23,21 @@ Route::get('/materials', fn() => view('layouts.material'));
 Route::get('/quis', [QuizController::class, 'show'])->name('quis');
 Route::post('/quis', [QuizController::class, 'submit'])->name('quis.submit');
 
-// Dashboard user (protected route)
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-
 Route::get('/login-siswa', [UserLoginController::class, 'showLoginForm'])->name('login.user');
 Route::post('/login-siswa', [UserLoginController::class, 'login'])->name('login.user.submit');
 
 Route::get('/register-siswa', [UserRegisterController::class, 'showRegisterForm'])->name('register.user');
 Route::post('/register-siswa', [UserRegisterController::class, 'register'])->name('register.user.submit');
 
-// Route::get('/login', fn() => redirect()->route('login.user'))->name('login');
+// Dashboard user (protected route)
+Route::middleware('auth')->group(function () {
+Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 });
+// Category //
+
+Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('kategori.show');
+
+// MATERIAL //
+
+
+Route::get('/materi/{slug}', [MaterialController::class, 'show'])->name('materi.show');

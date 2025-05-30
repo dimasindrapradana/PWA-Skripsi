@@ -54,9 +54,9 @@ class RegisterCustom extends Register
     protected function getRedirectUrl(): string
     {
      if (Auth::user()->role === 'admin') {
-        return config('filament.home_url'); // atau route admin-mu
+        return config('filament.home_url'); 
     }
 
-    return route('user.dashboard'); // route ke dashboard user
+    return route('user.dashboard');
     }
 }

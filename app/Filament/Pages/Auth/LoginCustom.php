@@ -8,6 +8,7 @@ use Filament\Pages\Auth\Login;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 
+
 class LoginCustom extends Login
 {
     public static function shouldRegisterNavigation(): bool
@@ -60,16 +61,15 @@ class LoginCustom extends Login
     {
         $user = Auth::user(); 
 
-        if ($user->role === 'admin') {
-            return route('filament.admin.pages.dashboard');
+         if ($user->role !== 'admin') {
+        Auth::logout();
+        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 
-        if ($user->role === 'user') {
-            return route('user.dashboard');
-        }
-
-        return '/';
+         return route('filament.admin.pages.dashboard');
     }
+    
+    
     public static function registerNavigationItems(): array
     {
     return [];

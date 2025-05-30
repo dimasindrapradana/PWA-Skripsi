@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('material_id')->constrained('materials');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('slug')->unique(); 
             $table->integer('time_limit')->nullable();
             $table->timestamps();
         });

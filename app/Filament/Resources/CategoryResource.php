@@ -28,7 +28,7 @@ class CategoryResource extends Resource
                 TextInput::make('name')
                     ->placeholder("Masukan kategori materi ... ")
                     ->required(),
-                TextInput::make('description')
+                Forms\Components\Textarea::make('description')
                     ->placeholder("Masukan deskripsi Kategori ... ")
                     ->required(),
             ]);
@@ -41,6 +41,7 @@ class CategoryResource extends Resource
                 TextColumn::make("name")
                     ->searchable(),
                 TextColumn::make("description")
+                    ->limit(30),
             ])
             ->filters([
                 //

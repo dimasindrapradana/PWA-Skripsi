@@ -19,7 +19,7 @@
         <form method="POST" action="{{ route('login.user.submit') }}">
             @csrf
 
-            <label>Nama atau Email:</label>
+            <label>Email:</label>
             <input type="text" name="email" required value="{{ old('email') }}">
 
             <label>Password:</label>

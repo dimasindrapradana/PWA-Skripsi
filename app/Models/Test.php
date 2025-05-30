@@ -3,9 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Test extends Model
 {
+
+     protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($test) {
+            $test->slug = Str::slug($test->title);
+        });
+    }
     protected static function booted()
     {
         static::deleting(function ($test) {

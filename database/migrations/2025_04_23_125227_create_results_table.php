@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('test_id')->constrained('tests');
             $table->foreignId('user_id')->constrained('users');
             $table->float('score');
+            $table->string('slug')->unique(); 
             $table->timestamp('submitted_at')->nullable();
         });
     }
