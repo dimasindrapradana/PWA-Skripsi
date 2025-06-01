@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->string('title');
             $table->longText('content');
-            $table->string('slug')->unique(); 
+            $table->string('slug')->unique();
+            $table->boolean('is_submission_point')->default(false); 
             $table->timestamps();
         });
     }
@@ -35,5 +36,8 @@ return new class extends Migration
         Schema::dropIfExists('materials');
         Schema::dropIfExists('categories');
         Schema::dropIfExists('users');
+        Schema::table('materials', function (Blueprint $table) {
+            $table->dropColumn('is_submission_point');
+        });
     }
 };

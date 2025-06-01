@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-                $table->string('video_url')->nullable();
-                $table->morphs('videoable');
-                $table->text('description')->nullable();
-                $table->timestamps();
+            $table->foreignId('material_id')->constrained('materials')->onDelete('cascade'); 
+            $table->string('video_url')->nullable();
+            $table->text('description')->nullable();
+            $table->timestamps();
         });
     }
 

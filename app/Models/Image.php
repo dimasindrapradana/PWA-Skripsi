@@ -13,9 +13,14 @@ class Image extends Model
         });
     }
 
-    public function imageable()
+    public function material()
     {
-        return $this->morphTo(); 
+        return $this->belongsTo(Material::class);
+    }
+    
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
     }
 
     protected $guarded =[];

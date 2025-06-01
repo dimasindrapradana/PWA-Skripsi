@@ -8,6 +8,12 @@ use App\Http\Controllers\Auth\UserLoginController;
 use App\Http\Controllers\Auth\UserRegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\SubmissionController;
+
+// admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // route khusus admin
+});
 
 // Register route
 Route::get('/register-custom', [RegisterCustomController::class, 'show'])->name('register.custom.show');
@@ -41,3 +47,7 @@ Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('kateg
 
 
 Route::get('/materi/{slug}', [MaterialController::class, 'show'])->name('materi.show');
+
+// Submission
+
+Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store')->middleware('auth');

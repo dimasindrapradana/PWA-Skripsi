@@ -69,6 +69,11 @@ class MaterialResource extends Resource
                 ->columns(1)
                 ->label('Video (opsional)'),
 
+                Forms\Components\Toggle::make('is_submission_point')
+                ->label('Apakah ini tempat pengumpulan tugas?')
+                ->helperText('  Centang jika materi ini adalah tempat untuk siswa mengumpulkan tugas.')
+                ->default(false),
+
         ]);
     }
 

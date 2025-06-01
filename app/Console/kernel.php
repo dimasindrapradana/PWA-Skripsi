@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         // jadwal task otomatis (optional)
     }
     protected $routeMiddleware = [
-    'checkRole' => \App\Http\Middleware\RoleMiddleware::class,
+    'role' => \App\Http\Middleware\RoleMiddleware::class,
+    'admin.only' => \App\Http\Middleware\AdminOnly::class,
 
     ];
 

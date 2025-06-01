@@ -33,27 +33,25 @@ class Material extends Model
 
     public function images()
     {
-        return $this->morphMany(Image::class, 'imageable');
+    return $this->morphMany(Image::class, 'imageable');
     }
 
     public function videos()
     {
-        return $this->morphMany(Video::class, 'videoable');
+        return $this->hasMany(Video::class); 
     }
-    public function show($slug)
+
+    public function users()
     {
-        $material = Material::with(['category.materials'])->where('slug', $slug)->firstOrFail();
-
-        $materials = $material->category->materials;
-
-        $currentIndex = $materials->search(function ($m) use ($material) {
-            return $m->id === $material->id;
-        });
-
-        $previous = $materials[$currentIndex - 1] ?? null;
-        $next = $materials[$currentIndex + 1] ?? null;
-
-        return view('materi.show', compact('material', 'materials', 'previous', 'next'));
+    return $this->belongsToMany(User::class)
+        ->withPivot(['has_read', 'submitted_task', 'completed_quiz'])
+        ->withTimestamps();
     }
+
+    public function submissions()
+    {
+    return $this->hasMany(\App\Models\Submission::class);
+    }
+
     protected $guarded=[];
 }

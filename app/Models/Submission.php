@@ -20,6 +20,9 @@ protected $fillable = [
     'user_id',
     'material_id',
     'link',
+    'description',
+    'slug',
+    'submitted_at',
 ];
 
 }

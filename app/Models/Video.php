@@ -12,10 +12,9 @@ class Video extends Model
 
         });
     }
-    public function videoable()
+    public function material()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Material::class);
     }
-
     protected $guarded=[];
 }

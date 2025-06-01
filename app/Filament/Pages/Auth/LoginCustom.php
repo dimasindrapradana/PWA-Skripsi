@@ -59,14 +59,7 @@ class LoginCustom extends Login
 
     protected function getRedirectUrl(): string
     {
-        $user = Auth::user(); 
-
-         if ($user->role !== 'admin') {
-        Auth::logout();
-        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
-        }
-
-         return route('filament.admin.pages.dashboard');
+       return route('filament.admin.pages.dashboard');
     }
     
     
