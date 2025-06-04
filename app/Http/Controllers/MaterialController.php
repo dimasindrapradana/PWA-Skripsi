@@ -11,7 +11,8 @@ class MaterialController extends Controller
 {
      public function show($slug)
 {
-    $material = Material::with(['category.materials'])->where('slug', $slug)->firstOrFail();
+    $material = Material::with(['category.materials', 'tests'])->where('slug', $slug)->firstOrFail();
+
 
     // Tandai sebagai sudah dibaca
     auth()->user()->materials()->syncWithoutDetaching([

@@ -1,73 +1,84 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
-@section('content')
-@include('components.quis-navbar')
+    @section('title', $test->title)
 
-<div class="quiz-container">
+    @section('content')
+    <div class="flex">
+        @include('components.quis-navbar')
 
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-xl font-bold">Module 1 Challenge</h1>
-        <div id="timer" class="text-md font-semibold text-red-600">Time left: 10:00</div>
+        <h2 class="text-2xl font-bold mb-4 mt-4">{{ $test->title }}</h2>
+
+        <form action="{{ route('quiz.submit', $test->slug) }}" method="POST" id="quizForm">
+            @csrf
+
+            @foreach($test->questions as $index => $question)
+                <div class="mb-6" id="question-{{ $index + 1 }}">
+                    <p class="font-semibold">{{ $index+1 }}. {{ $question->question_text }}</p>
+
+                    @if ($question->image)
+                        <img src="{{ asset('storage/' . $question->image) }}" class="my-2 w-1/3">
+                    @endif
+
+                    @foreach ($question->options as $option)
+                        <div class="flex items-center space-x-2">
+                            <input type="radio"
+                                name="answers[{{ $question->id }}]"
+                                value="{{ $option->id }}"
+                                {{ old("answers.{$question->id}") == $option->id ? 'checked' : '' }}
+                                required>
+                            <label>{{ $option->option_text }}</label>
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
+            <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded">Kumpulkan</button>
+        </form>
     </div>
 
-    <form method="POST" action="{{ route('quis.submit') }}">
-        @csrf
+    <script>
+        const timeLimit = {{ $test->time_limit ?? 10 }};
+        let duration = timeLimit * 60;
+        const countdownEl = document.getElementById('countdown');
+        const quizForm = document.getElementById('quizForm');
 
-        {{-- Soal 1 --}}
-        <div class="question-block">
-            <div class="question-title">
-                <span>1. Apa ibukota Indonesia?</span>
-                <span class="text-sm text-gray-500">1 point</span>
-            </div>
-            <label class="option-label">
-                <input type="radio" name="answer[1]" value="A"> Surabaya
-            </label>
-            <label class="option-label">
-                <input type="radio" name="answer[1]" value="B"> Jakarta
-            </label>
-            <label class="option-label">
-                <input type="radio" name="answer[1]" value="C"> Bandung
-            </label>
-            <label class="option-label">
-                <input type="radio" name="answer[1]" value="D"> Medan
-            </label>
-        </div>
+        function updateTimer() {
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
-        {{-- Soal 2 --}}
-        <div class="question-block">
-            <div class="question-title">
-                <span>2. 2 + 2 = ?</span>
-                <span class="text-sm text-gray-500">1 point</span>
-            </div>
-            <label class="option-label">
-                <input type="radio" name="answer[2]" value="A"> 3
-            </label>
-            <label class="option-label">
-                <input type="radio" name="answer[2]" value="B"> 4
-            </label>
-            <label class="option-label">
-                <input type="radio" name="answer[2]" value="C"> 5
-            </label>
-            <label class="option-label">
-                <input type="radio" name="answer[2]" value="D"> 6
-            </label>
-        </div>
+            if (duration <= 0) {
+                clearInterval(timer);
+                alert("Waktu habis! Kuis akan dikumpulkan otomatis.");
+                quizForm.submit();
+            }
 
-        <div class="quiz-footer">
-            <button type="submit" class="btn-primary">Submit</button>
-            <button type="button" class="btn-secondary">Save draft</button>
-        </div>
-    </form>
-</div>
+            duration--;
+        }
 
-<script>
-    let time = 10 * 60;
-    const timerEl = document.getElementById('timer');
-    setInterval(() => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        timerEl.textContent = `Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-        if (time > 0) time--;
-    }, 1000);
-</script>
-@endsection
+        const timer = setInterval(updateTimer, 1000);
+        updateTimer();
+         </script>
+
+        <script>
+        const inputs = document.querySelectorAll("input[type='radio']");
+
+        // Saat halaman dimuat, restore jawaban yang disimpan
+        inputs.forEach(input => {
+            const savedValue = localStorage.getItem(input.name);
+            if (savedValue && input.value === savedValue) {
+                input.checked = true;
+            }
+
+            input.addEventListener('change', () => {
+                if (input.checked) {
+                    localStorage.setItem(input.name, input.value);
+                }
+            });
+        });
+
+        // Hapus localStorage saat submit
+        quizForm.addEventListener('submit', () => {
+            inputs.forEach(input => localStorage.removeItem(input.name));
+        });
+        </script>
+    @endsection

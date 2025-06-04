@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(action: LoginCustom::class)
-            ->registration(action: \App\Filament\Pages\Auth\RegisterCustom::class)
+            // ->registration(action: \App\Filament\Pages\Auth\RegisterCustom::class)
             ->colors([
                 'primary' => Color::Amber,
             ])

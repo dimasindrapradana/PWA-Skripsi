@@ -53,5 +53,6 @@ class Material extends Model
     return $this->hasMany(\App\Models\Submission::class);
     }
 
+
     protected $guarded=[];
 }

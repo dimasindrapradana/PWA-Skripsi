@@ -33,7 +33,10 @@ class ResultResource extends Resource
     {
         return $table
             ->columns([
-                //
+            Tables\Columns\TextColumn::make('user.name')->label('Nama Siswa'),
+            Tables\Columns\TextColumn::make('test.title')->label('Judul Kuis'),
+            Tables\Columns\TextColumn::make('score')->sortable(),
+            Tables\Columns\TextColumn::make('submitted_at')->dateTime(),
             ])
             ->filters([
                 //

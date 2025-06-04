@@ -67,6 +67,18 @@
                 </div>
             @endif
 
+                    @if ($material->tests->isNotEmpty())
+            <div class="mt-6">
+                <a href="{{ route('quiz.show', $material->slug) }}"
+                class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                    Kerjakan Kuis
+                </a>
+            </div>
+        @endif
+
+                @if ($material->tests->isNotEmpty())
+                <a href="{{ route('quiz.show', $material->slug) }}" class="btn btn-primary mt-4">Kerjakan Kuis</a>
+                  @endif
             <div class="material-nav-bottom">
                 @if ($previous)
                     <a href="{{ route('materi.show', $previous->slug) }}" class="nav-back">Back</a>
