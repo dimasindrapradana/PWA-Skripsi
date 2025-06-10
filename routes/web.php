@@ -57,14 +57,19 @@
         Route::post('/kuis/{slug}', [TestController::class, 'submit'])->name('quiz.submit');
 
         // Hasil Kuis
-        Route::get('/kuis/hasil/{resultSlug}', [TestController::class, 'result'])->name('quiz.result');
+        Route::get('/kuis/hasil/{slug}', [TestController::class, 'result'])->name('quiz.result');
 
 
         // Submission tugas
         Route::post('/submission', [SubmissionController::class, 'store'])->name('submission.store');
     });
-
-    // ======================
     // KATEGORI
-    // ======================
-    Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('kategori.show');
+        Route::get('/kategori/{slug}', [CategoryController::class, 'show'])->name('kategori.show');
+
+        use Illuminate\Support\Facades\Auth;
+        Route::post('/logout', function () {
+            Auth::logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+            return redirect()->route('login.user'); // redirect ke halaman login siswa
+        })->name('logout');

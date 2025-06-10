@@ -3,9 +3,9 @@
 @section('title', 'Kategori: ' . $category->name)
 
 @section('content')
+@include('components.navbar')
 <div class="min-h-screen flex flex-col bg-gray-50">
-    @include('components.navbar')
-
+    
     <main class="flex-grow px-4 sm:px-6 py-12 max-w-4xl mx-auto">
         <!-- Hero Section -->
         <section class="text-center mb-12">
@@ -16,7 +16,7 @@
                 {{ $category->long_description }}
             </p>
             <div class="mt-6">
-                <div class="w-32 h-2 bg-blue-500 rounded-full mx-auto"></div>
+                <div class="w-32 h-2 bg-slate-900 rounded-full mx-auto"></div>
             </div>
         </section>
 
@@ -43,7 +43,7 @@
         @if ($category->materials->count() > 0)
         <div class="text-center mb-12">
             <a href="{{ url('/materi/' . $category->materials->first()->slug) }}"
-               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition">
+               class="inline-block  bg-slate-900 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition">
                 Mulai Materi
             </a>
         </div>
@@ -52,10 +52,10 @@
         <!-- Learning Path -->
         <section class="mb-12">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Path Pembelajaran</h2>
-            <ol class="space-y-4 border-l-2 border-blue-500 pl-4">
+            <ol class="space-y-4 border-l-2 border-slate-900 pl-4">
                 @forelse ($category->materials as $material)
                     <li class="relative bg-white rounded-md shadow-sm p-4 border">
-                        <span class="absolute -left-3 top-5 w-3 h-3 bg-blue-500 rounded-full"></span>
+                        <span class="absolute -left-3 top-5 w-3 h-3 bg-slate-900 rounded-full"></span>
                         <h4 class="text-lg font-semibold text-blue-800">{{ $material->title }}</h4>
                         <p class="text-sm text-gray-600 mt-1">
                             {{ Str::limit($material->description, 120) }}

@@ -18,10 +18,13 @@ class UserRegisterController extends Controller
 
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'max:255'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:6', 'confirmed'],
+         $validated = $request->validate([
+        'name' => ['required', 'max:255'],
+        'email' => ['required', 'email', 'unique:users'],
+        'password' => ['required', 'min:8', 'confirmed'],
+        ], [
+        'password.min' => 'Kata sandi minimal harus 8 karakter.',
+        'password.confirmed' => 'Konfirmasi kata sandi tidak sesuai.',
         ]);
 
         $user = User::create([

@@ -9,21 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class Result extends Model
 {
-    protected $fillable = [
-        'test_id',
-        'user_id',
-        'score',
-        'slug',
-        'submitted_at',
-    ];
      protected static function booted()
-{
+    {
     static::creating(function ($result) {
-        $titleSlug = Str::slug($result->test->title);
-        $userId = $result->user_id ?? Auth::id();
-        $result->slug = "{$titleSlug}-{$userId}";
+        $result->slug = (string) \Illuminate\Support\Str::uuid();
     });
-}
+    }
+
 
     public function test()
     {
@@ -34,4 +26,5 @@ class Result extends Model
     {
         return $this->belongsTo(User::class);
     }
+    protected $guarded =[];
 }

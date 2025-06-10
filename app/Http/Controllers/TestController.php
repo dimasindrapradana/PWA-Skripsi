@@ -39,8 +39,12 @@ class TestController extends Controller
         }
 
     public function submit(Request $request, $slug)
-        {
-        $material = Material::where('slug', $slug)->with('tests.questions.options')->firstOrFail();
+    {
+        $material = Material::where('slug', $slug)
+            ->with('tests.questions.options')
+            ->firstOrFail();
+
+        // Ambil test yang pertama (asumsi 1 materi 1 kuis)
         $test = $material->tests->firstOrFail();
 
         $answers = $request->input('answers', []);
@@ -53,6 +57,7 @@ class TestController extends Controller
             }
         }
 
+        // Simpan result (misal pakai slug unik)
         $result = Result::create([
             'test_id' => $test->id,
             'user_id' => Auth::id(),
@@ -60,21 +65,37 @@ class TestController extends Controller
             'submitted_at' => now(),
         ]);
 
-        return redirect()->route('quiz.result', ['resultSlug' => $result->slug])
-        ->with('success', 'Kuis telah diselesaikan!');
-        }
+        dd($material->tests);
 
-        public function result($resultSlug)
+        return redirect()->route('quiz.result', ['slug' => $result->slug])
+            ->with('success', 'Kuis telah diselesaikan!');
+    }
+
+
+        public function result($slug)
         {
-              $result = Result::with('test')
-                ->where('slug', $resultSlug)
+            $result = Result::with('test.material') // Eager load material
+                ->where('slug', $slug)
                 ->where('user_id', Auth::id())
-                ->firstOrFail();
+                ->first();
+
+            if (!$result) {
+                // Fallback: Coba cari berdasarkan ID lama
+                $result = Result::find($slug);
+                
+                if ($result) {
+                    return redirect()->route('quiz.result', $result->slug);
+                }
+                
+                abort(404, 'Hasil kuis tidak ditemukan');
+            }
 
             $material = $result->test->material;
             $totalQuestions = $result->test->questions()->count();
 
             return view('layouts.quis-result', compact('result', 'material', 'totalQuestions'));
         }
+
+        
 
 }
