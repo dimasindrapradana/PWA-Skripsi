@@ -18,6 +18,7 @@ return new class extends Migration
             $table->float('score');
             $table->string('slug')->unique(); 
             $table->timestamp('submitted_at')->nullable();
+            $table->timestamps(); 
         });
     }
 

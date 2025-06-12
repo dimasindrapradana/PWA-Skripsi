@@ -18,6 +18,7 @@ return new class extends Migration
             $table->longText('content');
             $table->string('slug')->unique();
             $table->boolean('is_submission_point')->default(false); 
+            $table->boolean('is_quiz_point')->default(false);
             $table->timestamps();
         });
     }

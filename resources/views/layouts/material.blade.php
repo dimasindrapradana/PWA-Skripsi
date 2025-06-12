@@ -73,17 +73,7 @@
                     <p class="text-green-700 font-semibold">✅ Tugas sudah dikumpulkan.</p>
                 </div>
             @endif
-
-            {{-- QUIZ --}}
-            @if ($material->tests->isNotEmpty())
-                <div id="quiz" class="mt-6">
-                    <a href="{{ route('quiz.show', $material->slug) }}"
-                       class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
-                        Kerjakan Kuis
-                    </a>
-                </div>
-            @endif
-
+        
             {{-- NAV BOTTOM --}}
             <div class="flex items-center justify-between mt-12 gap-4">
                 @if ($previous)

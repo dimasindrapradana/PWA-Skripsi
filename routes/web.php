@@ -52,11 +52,16 @@
         // Materi & Detail Materi
         Route::get('/materi/{slug}', [MaterialController::class, 'show'])->name('materi.show');
 
-        // Quiz/Test (one-page)
+       // Halaman daftar semua kuis
+        Route::get('/kuis', [TestController::class, 'index'])->name('quiz.index');
+
+        // Halaman mengerjakan kuis (per test/kuis)
+        Route::get('/daftar-kuis', [TestController::class, 'index'])->name('quiz.list');
+
         Route::get('/kuis/{slug}', [TestController::class, 'show'])->name('quiz.show');
         Route::post('/kuis/{slug}', [TestController::class, 'submit'])->name('quiz.submit');
 
-        // Hasil Kuis
+        // Hasil kuis
         Route::get('/kuis/hasil/{slug}', [TestController::class, 'result'])->name('quiz.result');
 
 

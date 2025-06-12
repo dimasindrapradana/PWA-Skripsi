@@ -6,6 +6,11 @@
            class="ml-2 px-3 py-1 rounded font-medium text-gray-700 hover:bg-slate-100 hover:text-blue-600 transition focus:outline-none focus:ring-2 focus:ring-blue-300">
             Beranda
         </a>
+        <!-- LINK BARU UNTUK DAFTAR KUIS -->
+        <a href="{{ route('quiz.list') }}"
+           class="ml-2 px-3 py-1 rounded font-medium text-gray-700 hover:bg-slate-100 hover:text-yellow-600 transition focus:outline-none focus:ring-2 focus:ring-yellow-300">
+            Daftar Kuis
+        </a>
     </div>
     <div class="flex items-center gap-6">
         <form method="POST" action="{{ route('logout') }}" class="inline">

@@ -2,100 +2,99 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Material;
 use App\Models\Test;
 use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-
 
 class TestController extends Controller
 {
+    // Halaman daftar semua kuis
+    public function index()
+    {
+        $tests = Test::with('material')->get();
+        return view('quiz.index', compact('tests'));
+    }
+
+    // Halaman detail & pengerjaan kuis
     public function show($slug)
     {
-        $material = Material::where('slug', $slug)
-            ->with('tests.questions.options')
+        $test = Test::where('slug', $slug)
+            ->with(['questions.options', 'material'])
             ->firstOrFail();
 
-        $test = $material->tests->firstOrFail();
+        $questions = $test->questions->shuffle()->take(10);
 
-        // Jika user sudah mengerjakan kuis, redirect ke hasil
-        // $existingResult = Result::where('test_id', $test->id)
-        //     ->where('user_id', Auth::id())
-        //     ->latest()
-        //     ->first();
-
-        // if ($existingResult) {
-        //     return redirect()->route('quiz.result', $existingResult->slug);
-        // }
-
-        // // Simpan waktu mulai kuis (hanya sekali)
-        // if (!session()->has("quiz_started_at.{$test->id}")) {
-        //     session(["quiz_started_at.{$test->id}" => now()]);
-        // }
-
-        return view('layouts.quis', compact('test', 'material'));
-        }
+        $material = $test->material;
+        return view('quiz.show', compact('test', 'material', 'questions'));
+    }
 
     public function submit(Request $request, $slug)
     {
-        $material = Material::where('slug', $slug)
-            ->with('tests.questions.options')
-            ->firstOrFail();
+        $test = Test::where('slug', $slug)
+        ->with(['questions.options', 'material'])
+        ->firstOrFail();
 
-        // Ambil test yang pertama (asumsi 1 materi 1 kuis)
-        $test = $material->tests->firstOrFail();
-
+      
+        $questionIds = $request->input('question_ids', []);
         $answers = $request->input('answers', []);
-        $score = 0;
+        $jumlah_soal = count($questionIds);
 
-        foreach ($test->questions as $question) {
-            $correct = $question->options->firstWhere('is_correct', true);
-            if (isset($answers[$question->id]) && $answers[$question->id] == $correct->id) {
-                $score++;
+        $questions = $test->questions()->whereIn('id', $questionIds)->with('options')->get();
+
+        $jumlah_benar = 0;
+
+                foreach ($questions as $question) {
+                $correct = $question->options->firstWhere('is_correct', true);
+                if ($correct && isset($answers[$question->id]) && $answers[$question->id] == $correct->id) {
+                    $jumlah_benar++;
+                }
             }
-        }
 
-        // Simpan result (misal pakai slug unik)
+        $score = $jumlah_soal > 0 ? $jumlah_benar * (100 / $jumlah_soal) : 0;
+
         $result = Result::create([
             'test_id' => $test->id,
             'user_id' => Auth::id(),
-            'score' => $score,
+            'score' => round($score),
             'submitted_at' => now(),
         ]);
 
-        dd($material->tests);
+        session(['user_answers_' . $result->id => $answers, 'user_questions_' . $result->id => $questionIds]);
 
         return redirect()->route('quiz.result', ['slug' => $result->slug])
             ->with('success', 'Kuis telah diselesaikan!');
     }
 
+    // Halaman hasil kuis
+    public function result($slug)
+    {
+        $result = Result::with('test.material')->where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        $test = $result->test;
+        $material = $test->material;
 
-        public function result($slug)
-        {
-            $result = Result::with('test.material') // Eager load material
-                ->where('slug', $slug)
-                ->where('user_id', Auth::id())
-                ->first();
+        $questionIds = session('user_questions_' . $result->id, []);
+        $user_answers = session('user_answers_' . $result->id, []);
 
-            if (!$result) {
-                // Fallback: Coba cari berdasarkan ID lama
-                $result = Result::find($slug);
-                
-                if ($result) {
-                    return redirect()->route('quiz.result', $result->slug);
-                }
-                
-                abort(404, 'Hasil kuis tidak ditemukan');
+        // Ambil & urutkan soal sesuai urutan pengerjaan
+        $questionsDb = $test->questions()->whereIn('id', $questionIds)->with('options')->get();
+        $questions = collect($questionIds)->map(function ($id) use ($questionsDb) {
+            return $questionsDb->firstWhere('id', $id);
+        });
+
+        $jumlah_soal = count($questionIds);
+        $jumlah_benar = 0;
+        foreach ($questions as $question) {
+            $correct = $question->options->firstWhere('is_correct', true);
+            if ($correct && isset($user_answers[$question->id]) && $user_answers[$question->id] == $correct->id) {
+                $jumlah_benar++;
             }
-
-            $material = $result->test->material;
-            $totalQuestions = $result->test->questions()->count();
-
-            return view('layouts.quis-result', compact('result', 'material', 'totalQuestions'));
         }
 
-        
+        return view('quiz.result', compact(
+            'result', 'material', 'jumlah_benar', 'jumlah_soal', 'test', 'user_answers', 'questions'
+        ));
+    }
 
 }
+
