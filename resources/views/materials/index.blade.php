@@ -19,34 +19,43 @@
         </div>
     </form>
 
-    @forelse($categories as $category)
-        <div class="mb-14">
-            <div class="flex flex-col sm:flex-row items-center gap-3 mb-4">
-                <h2 class="text-xl sm:text-2xl font-bold text-indigo-700 flex-shrink-0">{{ $category->name }}</h2>
-                <span class="h-2 w-32 bg-indigo-200 rounded-full sm:ml-2"></span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                @forelse($category->materials as $material)
-                    <div class="bg-white border border-indigo-100 rounded-2xl shadow-lg p-7 flex flex-col justify-between hover:scale-[1.025] hover:shadow-indigo-200 transition-all duration-150">
-                        <div>
-                            <h3 class="text-lg font-bold text-indigo-800 mb-2">{{ $material->title }}</h3>
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($material->content), 110) }}
-                            </p>
-                        </div>
-                        <a href="{{ route('materi.show', $material->slug) }}"
-                           class="mt-4 block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow transition">
-                            Buka Materi
-                        </a>
-                    </div>
-                @empty
-                    <div class="col-span-full text-gray-400 text-center">Belum ada materi di kategori ini.</div>
-                @endforelse
-            </div>
+   @foreach($categories as $category)
+    <div class="mb-14" x-data="{ showAll: false }">
+        <div class="flex flex-col sm:flex-row items-center gap-3 mb-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-indigo-700 flex-shrink-0">{{ $category->name }}</h2>
+            <span class="h-2 w-32 bg-indigo-200 rounded-full sm:ml-2"></span>
         </div>
-    @empty
-        <div class="text-center text-gray-500 py-12">Belum ada kategori/materi.</div>
-    @endforelse
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <template x-for="(material, idx) in showAll ? {{ $category->materials->toJson() }} : {{ $category->materials->take(3)->toJson() }}" :key="material.id">
+                <div class="bg-white border border-indigo-100 rounded-2xl shadow-lg p-7 flex flex-col justify-between hover:scale-[1.025] hover:shadow-indigo-200 transition-all duration-150">
+                    <div>
+                        <h3 class="text-lg font-bold text-indigo-800 mb-2" x-text="material.title"></h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3"  x-text="material.content_plain?.slice(0,110)+'...'"></p>
+                    </div>
+                    <a :href="'/materi/'+material.slug"
+                       class="mt-4 block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow transition">
+                        Buka Materi
+                    </a>
+                </div>
+            </template>
+        </div>
+        @if($category->materials->count() > 3)
+            <div class="mt-4 text-center">
+                <button x-show="!showAll"
+                   class="inline-block bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold px-5 py-2 rounded-xl shadow transition"
+                   @click="showAll = true">
+                    Lihat Semua Materi di Kategori Ini ({{ $category->materials->count() }})
+                </button>
+                <button x-show="showAll"
+                   class="inline-block bg-indigo-100 hover:bg-indigo-200 text-slate-900 font-bold px-5 py-2 rounded-xl shadow transition"
+                   @click="showAll = false">
+                    Tampilkan 3 Materi Saja
+                </button>
+            </div>
+        @endif
+    </div>
+@endforeach
+
 
     <script>
     const input = document.getElementById('search-input');

@@ -16,6 +16,13 @@ class MaterialController extends Controller
             }
         }])->get();
 
+        foreach ($categories as $category) {
+            $category->materials->transform(function ($material) {
+                $material->content_plain = trim(strip_tags($material->content));
+                return $material;
+            });
+        }
+
         if ($search) {
             $foundCategory = \App\Models\Category::where('name', 'like', "%$search%")->first();
             if ($foundCategory) {

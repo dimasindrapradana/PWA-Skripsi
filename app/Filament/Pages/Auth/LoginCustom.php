@@ -7,7 +7,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Pages\Auth\Login;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Route;
+use Filament\Pages\Page;
 
 class LoginCustom extends Login
 {
@@ -15,7 +16,14 @@ class LoginCustom extends Login
     {
         return false;
     }
-
+    public static function getRoutes(): array
+    {
+        
+    return [
+        Route::get('/login', static::class)->name('filament.admin.auth.login'),
+        Route::post('/login', [static::class, 'authenticate']),
+    ];
+    }
     protected function getForms(): array
     {
         return [

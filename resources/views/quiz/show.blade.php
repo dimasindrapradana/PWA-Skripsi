@@ -3,7 +3,7 @@
 
 @section('content')
 
-<nav class="sticky top-0 z-50 w-full bg-white shadow-lg py-3 px-4 sm:px-8 flex items-center justify-between mb-6 relative">
+<nav class="top-0 z-50 w-full bg-white shadow-lg py-3 px-4 sm:px-8 flex items-center justify-between mb-6 relative">
    
     <a href="{{ route('quiz.index') }}"
         class="flex items-center px-4 h-10 rounded-lg border border-indigo-200 bg-white/80 hover:bg-indigo-50 text-indigo-700 font-semibold transition focus:outline-none focus:ring-2 focus:ring-indigo-200"
