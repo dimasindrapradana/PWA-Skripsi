@@ -10,10 +10,31 @@ use Illuminate\Support\Facades\Auth;
 class TestController extends Controller
 {
     // Halaman daftar semua kuis
-    public function index()
+    public function index(Request $request)
     {
-        $tests = Test::with('material')->get();
-        return view('quiz.index', compact('tests'));
+         $query = \App\Models\Test::with('material');
+
+    // Filter search
+    if ($search = $request->input('q')) {
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+              ->orWhereHas('material', function ($q2) use ($search) {
+                  $q2->where('title', 'like', "%{$search}%");
+              });
+        });
+    }
+
+        $tests = $query->get();
+
+
+         $userResults = \App\Models\Result::where('user_id', Auth::id())
+        ->get()
+        ->keyBy('test_id');
+
+   
+        $categories = \App\Models\Category::whereHas('materials.tests')->get();
+
+    return view('quiz.index', compact('tests', 'userResults', 'categories'));
     }
 
     // Halaman detail & pengerjaan kuis
@@ -95,6 +116,44 @@ class TestController extends Controller
             'result', 'material', 'jumlah_benar', 'jumlah_soal', 'test', 'user_answers', 'questions'
         ));
     }
+        public function autocomplete(Request $request)
+        {
+            $query = $request->get('q', '');
+
+            // Ambil kuis yang judul atau judul materi terkait mengandung keyword
+            $tests = \App\Models\Test::with('material.category')
+                ->where('title', 'like', '%' . $query . '%')
+                ->orWhereHas('material', function ($q) use ($query) {
+                    $q->where('title', 'like', '%' . $query . '%');
+                })
+                ->limit(7)
+                ->get();
+
+            // Ambil kategori juga (opsional)
+            $categories = \App\Models\Category::where('name', 'like', '%' . $query . '%')
+                ->limit(3)->get();
+
+            $results = [];
+
+            foreach ($categories as $cat) {
+                $results[] = [
+                    'type' => 'kategori',
+                    'label' => $cat->name,
+                    'id' => $cat->id,
+                    // optional: link ke daftar kuis per kategori
+                ];
+            }
+            foreach ($tests as $test) {
+                $results[] = [
+                    'type' => 'kuis',
+                    'label' => $test->title,
+                    'id' => $test->id,
+                    // optional: link ke kuis
+                ];
+            }
+
+            return response()->json($results);
+        }
 
 }
 

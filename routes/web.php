@@ -33,17 +33,11 @@
     Route::get('/register-custom', [RegisterCustomController::class, 'show'])->name('register.custom.show');
     Route::post('/register-custom', [RegisterCustomController::class, 'register'])->name('register.custom');
 
-    // ======================
-    // PUBLIC PAGES
-    // ======================
+    
     Route::get('/', fn () => view('layouts.landing'));
     Route::get('/categories', fn () => view('layouts.category'));
-    Route::get('/introduction', fn () => view('layouts.introductionCategory'));
     Route::get('/materials', fn () => view('layouts.material'));
 
-    // ======================
-    // USER AUTHENTICATED ROUTES
-    // ======================
     Route::middleware('auth')->group(function () {
 
         // Dashboard pengguna
@@ -52,8 +46,16 @@
         // Materi & Detail Materi
         Route::get('/materi/{slug}', [MaterialController::class, 'show'])->name('materi.show');
 
-       // Halaman daftar semua kuis
+        // Halaman daftar semua kuis
         Route::get('/kuis', [TestController::class, 'index'])->name('quiz.index');
+      
+        Route::get('/quiz/autocomplete', [TestController::class, 'autocomplete'])->name('quiz.autocomplete');
+
+        //halaman materi
+        Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
+        Route::get('/materials/autocomplete', [MaterialController::class, 'autocomplete'])->name('materials.autocomplete');
+
+        
 
         // Halaman mengerjakan kuis (per test/kuis)
         Route::get('/daftar-kuis', [TestController::class, 'index'])->name('quiz.list');

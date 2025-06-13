@@ -7,14 +7,34 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+        $categories = \App\Models\Category::with(['materials' => function($q) use ($search) {
+            if ($search) {
+                $q->where('title', 'like', "%$search%");
+            }
+        }])->get();
+
+        if ($search) {
+            $foundCategory = \App\Models\Category::where('name', 'like', "%$search%")->first();
+            if ($foundCategory) {
+                $categories = collect([$foundCategory->load('materials')]);
+            } else {
+                
+                $categories = $categories->filter(fn($cat) => $cat->materials->count() > 0);
+            }
+        }
+
+        return view('materials.index', [
+            'categories' => $categories,
+            'search' => $search,
+        ]);
+    }
     public function show($slug)
     {
         $material = Material::with(['category.materials', 'tests'])->where('slug', $slug)->firstOrFail();
 
-        // Tandai sebagai sudah dibaca
-        auth()->user()->materials()->syncWithoutDetaching([
-            $material->id => ['has_read' => true]
-        ]);
 
         // Ambil semua materi dalam kategori untuk navigasi
         $materials = $material->category->materials;
@@ -31,4 +51,27 @@ class MaterialController extends Controller
 
         return view('layouts.material', compact('material', 'materials', 'previous', 'next', 'hasQuiz'));
     }
+    public function autocomplete(Request $request)
+    {
+        $term = $request->input('term', '');
+
+        // Cari materi
+        $materials = \App\Models\Material::where('title', 'like', "%{$term}%")
+            ->limit(5)->get(['title']);
+
+        // Cari kategori
+        $categories = \App\Models\Category::where('name', 'like', "%{$term}%")
+            ->limit(5)->get(['name']);
+
+        $results = [];
+        foreach ($categories as $cat) {
+            $results[] = ['label' => $cat->name, 'type' => 'kategori'];
+        }
+        foreach ($materials as $mat) {
+            $results[] = ['label' => $mat->title, 'type' => 'materi'];
+        }
+
+        return response()->json($results);
+    }
+
 }

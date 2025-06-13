@@ -1,87 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Selamat Datang</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-    <style>
-        body {
-            background-color: #111827;
-            color: #f9fafb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+@extends('layouts.app')
 
-        .landing-container {
-            background-color: #1f2937;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            max-width: 420px;
-            width: 90%;
-            text-align: center;
-        }
+@section('title', 'Landing Page')
 
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
-        }
+@section('content')
+<div class="bg-slate-900 min-h-screen flex items-center justify-center px-2">
+    <div class="w-full max-w-sm mx-auto bg-white/95 rounded-2xl shadow-xl py-8 px-5 flex flex-col items-center">
 
-        .login-btn {
-            display: block;
-            width: 100%;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: background-color 0.2s ease-in-out;
-        }
+        <img src="/logo.svg" alt="Logo PWA Fotografi" class="w-16 h-16 mb-3 rounded-full bg-indigo-50 shadow-sm">
 
-        .btn-siswa {
-            background-color: #3b82f6;
-            color: white;
-        }
+        <h1 class="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-4 leading-snug tracking-tight">
+            Selamat Datang <br>
+            di <span class="text-indigo-600">PWA Fotografi</span>
+        </h1>
+        <p class="text-slate-600 text-center mb-7 text-base">
+            Platform belajar <span class="font-medium text-indigo-700">Fotografi Digital</span> berbasis Progressive Web App. Pilih login sesuai peranmu.
+        </p>
 
-        .btn-siswa:hover {
-            background-color: #2563eb;
-        }
+        <a href="{{ route('login.user') }}"
+           class="w-full text-center py-3 mb-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow transition duration-150">
+            Login Siswa
+        </a>
+        <a href="{{ route('filament.admin.auth.login') }}"
+           class="w-full text-center py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-lg shadow transition duration-150">
+            Login Guru / Admin
+        </a>
 
-        .btn-guru {
-            background-color: #10b981;
-            color: white;
-        }
-
-        .btn-guru:hover {
-            background-color: #059669;
-        }
-
-        @media screen and (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .login-btn {
-                font-size: 0.95rem;
-                padding: 0.6rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="landing-container">
-        <h1>Selamat Datang</h1>
-        <a href="{{ route('login.user') }}" class="login-btn btn-siswa">Login Siswa</a>
-        <a href="{{ route('filament.admin.auth.login') }}" class="login-btn btn-guru">Login Guru / Admin</a>
+        <div class="mt-8 text-xs text-slate-400 text-center">
+            &copy; {{ date('Y') }} PWA Fotografi SMK 3 Yogyakarta
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

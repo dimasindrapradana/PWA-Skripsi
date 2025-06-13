@@ -25,6 +25,9 @@ class SubmissionController extends Controller
             'submitted_at' => now(),
         ]);
 
-        return back()->with('success', 'Tugas berhasil dikumpulkan!');
+        $material = \App\Models\Material::find($request->material_id);
+        return redirect()
+        ->route('materi.show', $material->slug)
+        ->with('success', 'Tugas berhasil dikirim ulang!');
     }
 }

@@ -34,13 +34,17 @@ class MaterialResource extends Resource
                 ->required()
                 ->maxLength(255)
                 ->label('Judul Materi')
-                ->placeholder("Masukan judul materi ... "),
-                
+                ->placeholder("Masukan judul materi ... ")
+                ->unique(ignorable: fn ($record) => $record) // ini kunci agar edit tidak error
+                ->validationMessages([
+                    'unique' => 'Judul materi sudah pernah digunakan. Silakan pilih judul lain.',
+                ]),       
 
-            Forms\Components\Textarea::make('content')
-                ->required()
-                ->label('Konten')
-                ->placeholder("Masukan isi konten/materi ... "),
+            Forms\Components\RichEditor::make('content')
+             ->required()
+             ->label('Konten')
+             ->placeholder("Masukan isi konten/materi ..."),
+
                 
             Forms\Components\Repeater::make('images')
                 ->relationship()
