@@ -4,12 +4,13 @@
 
 @section('content')
 @include('components.navbar')
+
 <div class="min-h-screen flex flex-col bg-gray-50">
 
-    <main class="flex-grow px-4 sm:px-6 py-10 max-w-5xl mx-auto">
+    <main class="flex-grow px-2 sm:px-6 py-8 max-w-5xl mx-auto w-full pb-24">
         <!-- Hero Section -->
         <section class="text-center mb-12">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">
+            <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">
                 Pembelajaran Tahap {{ $category->name }}
             </h1>
             <p class="text-gray-600 mt-4 max-w-2xl mx-auto leading-relaxed text-justify">
@@ -23,7 +24,7 @@
         <!-- Informational Boxes -->
         <section class="mb-12">
             <h2 class="text-xl font-semibold text-gray-800 mb-6">Yang Akan Anda Dapatkan</h2>
-            <div class="grid sm:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <!-- Modul -->
                 <div class="p-5 bg-white border rounded-xl shadow-sm flex flex-col justify-between h-full">
                     <div>
@@ -55,7 +56,6 @@
             </div>
         </section>
 
-
         <!-- Mulai Materi & Kuis Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             @if ($category->materials->count() > 0)
@@ -69,20 +69,15 @@
         <section class="mb-12">
             <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center">Path Pembelajaran</h2>
             <div class="w-full overflow-x-auto pb-4">
-                <div class="flex items-center gap-8 min-w-[340px]">
+                <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 px-2 sm:px-0">
                     @foreach ($category->materials as $index => $material)
-                        <div class="relative flex flex-col items-center min-w-[220px]">
-                            <!-- Benang penghubung (kecuali item terakhir) -->
-                            @if ($index !== count($category->materials) - 1)
-                                <div class="absolute right-0 top-7 w-8 h-1 bg-indigo-200 z-0"></div>
-                            @endif
+                        <div class="relative flex flex-col items-center min-w-[200px] sm:min-w-[220px]">
                             <!-- Nomor -->
                             <div class="z-10 w-10 h-10 bg-indigo-700 text-white flex items-center justify-center font-bold text-lg rounded-full shadow mb-3 border-4 border-white">
                                 {{ $loop->iteration }}
                             </div>
                             <!-- Card -->
-                            <a href="{{ route('materi.show', $material->slug) }}"
-                            class="group bg-white rounded-xl shadow-lg p-4 border border-slate-200 text-center hover:scale-105 transition-all duration-150 w-full">
+                            <a class="group bg-white rounded-xl shadow-lg p-3 sm:p-4 border border-slate-200 text-center hover:scale-105 transition-all duration-150 w-full">
                                 <h4 class="text-base font-bold text-indigo-800 mb-1">{{ $material->title }}</h4>
                                 <p class="text-xs text-gray-600">{{ Str::limit($material->description, 60) }}</p>
                             </a>
@@ -95,8 +90,8 @@
                 .overflow-x-auto { scrollbar-width: none; -ms-overflow-style: none; }
             </style>
         </section>
-
     </main>
     @include('components.footer')
 </div>
+@include('components.mobile-navbar')
 @endsection

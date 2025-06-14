@@ -18,7 +18,8 @@ class QuestionResource extends Resource
     protected static ?string $model = Question::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Resource Quiz';
+    protected static ?string $navigationGroup = 'Kuis';
+    protected static ?int $navigationSort = 2;
     protected static ?string $label = 'List Pertanyaan';
 
     public static function form(Form $form): Form

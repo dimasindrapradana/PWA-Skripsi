@@ -18,6 +18,8 @@ class MaterialResource extends Resource
     protected static ?string $model = Material::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+
+    protected static ?string $navigationGroup = 'Manajemen Materi';
     
     protected static ?string $label = 'Materi';
 

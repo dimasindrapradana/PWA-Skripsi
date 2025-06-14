@@ -18,7 +18,8 @@ class OptionResource extends Resource
     protected static ?string $model = Option::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Resource Quiz';
+    protected static ?string $navigationGroup = 'Kuis';
+    protected static ?int $navigationSort = 3;
     protected static ?string $label = 'List Pilgan';
 
     public static function form(Form $form): Form

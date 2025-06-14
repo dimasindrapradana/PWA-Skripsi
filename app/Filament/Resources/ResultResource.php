@@ -15,8 +15,9 @@ class ResultResource extends Resource
     protected static ?string $model = Result::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Nilai Hasil Kuis';
-    protected static ?string $label = 'Nilai Hasil Kuis';
+    protected static ?string $navigationGroup = 'Kuis';
+    protected static ?int $navigationSort = 4;
+    protected static ?string $label = 'Nilai Kuis';
 
     public static function form(Form $form): Form
     {

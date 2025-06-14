@@ -3,6 +3,7 @@
 
 @section('content')
 @include('components.navbar')
+@include('components.mobile-navbar')
 
 <div class="max-w-5xl mx-auto py-10 px-4">
     <h1 class="text-3xl font-extrabold text-slate-900 mb-7 text-center">Daftar Kuis</h1>

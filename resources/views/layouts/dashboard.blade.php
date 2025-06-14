@@ -4,9 +4,10 @@
 
 @section('content')
 @include('components.navbar')
+@include('components.mobile-navbar')
 
-<div class="min-h-screen flex flex-col bg-gray-50">
-    <main class="flex-grow px-4 sm:px-6 py-8 max-w-7xl mx-auto space-y-10">
+<div class="min-h-screen flex flex-col bg-gray-50 ">
+    <main class="flex-grow px-4 sm:px-6 py-8 max-w-7xl mx-auto space-y-10 pb-16">
 
         {{-- Sapaan Personal --}}
         <div class="flex flex-col items-center text-center mb-2">
@@ -55,8 +56,7 @@
         <div class="mt-8 text-center text-sm text-indigo-600 font-medium italic">
             "Practice makes perfect! Jangan ragu untuk belajar dan mencoba kuis berkali-kali."
         </div>
-
-    </main>
-    @include('components.footer')
+  </main>
 </div>
+@include('components.footer')
 @endsection

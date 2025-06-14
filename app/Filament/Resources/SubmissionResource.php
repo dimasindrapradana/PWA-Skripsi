@@ -18,8 +18,9 @@ class SubmissionResource extends Resource
     protected static ?string $model = Submission::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Tugas Siswa';
-    protected static ?string $navigationGroup = 'Pembelajaran';
+    protected static ?string $navigationGroup = 'Siswa & Tugas';
+    protected static ?int $navigationSort = 2;
+    protected static ?string $label = 'Tugas Siswa';
 
     public static function form(Form $form): Form
     {

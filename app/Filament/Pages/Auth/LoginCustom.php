@@ -8,7 +8,8 @@ use Filament\Pages\Auth\Login;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Filament\Pages\Page;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
+
 
 class LoginCustom extends Login
 {
@@ -16,14 +17,16 @@ class LoginCustom extends Login
     {
         return false;
     }
-    public static function getRoutes(): array
+
+    // Ganti dari getRoutes() ke routes()
+    public static function routes(): array
     {
-        
-    return [
-        Route::get('/login', static::class)->name('filament.admin.auth.login'),
-        Route::post('/login', [static::class, 'authenticate']),
-    ];
+        return [
+            Route::get('/login', static::class)->name('filament.admin.auth.login'),
+            Route::post('/login', [static::class,'authenticate']), 
+        ];
     }
+
     protected function getForms(): array
     {
         return [
@@ -67,13 +70,11 @@ class LoginCustom extends Login
 
     protected function getRedirectUrl(): string
     {
-       return route('filament.admin.pages.dashboard');
-    }
-    
-    
-    public static function registerNavigationItems(): array
-    {
-    return [];
+        return route('filament.admin.pages.dashboard');
     }
 
+    public static function registerNavigationItems(): array
+    {
+        return [];
+    }
 }

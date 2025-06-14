@@ -6,12 +6,12 @@
 <nav class="top-0 z-50 w-full bg-white shadow-lg py-3 px-4 sm:px-8 flex items-center justify-between mb-6 relative">
    
     <a href="{{ route('quiz.index') }}"
-        class="flex items-center px-4 h-10 rounded-lg border border-indigo-200 bg-white/80 hover:bg-indigo-50 text-indigo-700 font-semibold transition focus:outline-none focus:ring-2 focus:ring-indigo-200"
+        class="flex items-center h-9 px-2 sm:px-4 rounded-md border border-indigo-200 bg-white/80 hover:bg-indigo-50 text-indigo-700 font-medium text-sm sm:text-base transition focus:outline-none focus:ring-2 focus:ring-indigo-200"
         aria-label="Kembali ke Daftar Kuis">
-        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 mr-1 sm:w-6 sm:h-6 sm:mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
-        <span class="font-semibold">Kembali</span>
+        <span class="font-medium">Kembali</span>
     </a>
     
     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -26,13 +26,11 @@
     @endif
 </nav>
 
-
-
-<div class="max-w-2xl mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-5 text-indigo-900">{{ $test->title }}</h1>
+<div class="max-w-2xl mx-auto py-8 px-2 sm:px-0">
+    <h1 class="text-2xl font-bold mb-4 text-indigo-900">{{ $test->title }}</h1>
     <p class="mb-3 text-indigo-700 text-sm">Materi: {{ $material->title ?? '-' }}</p>
     @if($test->time_limit)
-        <div class="text-right text-base font-bold text-yellow-600 mb-4">
+        <div class="text-right text-base font-bold text-yellow-600 mb-5 mt-1">
             Sisa waktu: <span id="time-remaining"></span>
         </div>
     @endif
@@ -42,22 +40,22 @@
         <div class="flex flex-col gap-7">
         @foreach($questions as $index => $question)
             <input type="hidden" name="question_ids[]" value="{{ $question->id }}">
-            <div class="rounded-2xl bg-white/95 shadow-lg p-6 border border-slate-100 transition hover:shadow-xl relative">
+            <div class="rounded-2xl bg-white/95 shadow-lg p-5 sm:p-6 border border-slate-100 transition hover:shadow-xl relative">
                 <div class="flex items-center gap-3 mb-2">
-                    <span class="rounded-xl bg-indigo-600 text-white font-bold w-9 h-9 flex items-center justify-center text-lg shadow-md border-4 border-indigo-100">{{ $index + 1 }}</span>
+                    <span class="rounded-xl bg-indigo-600 text-white font-bold w-8 h-8 text-base flex items-center justify-center shadow-md border-4 border-indigo-100">{{ $index + 1 }}</span>
                     <span class="text-base font-semibold text-slate-900 leading-snug flex-1">{{ $question->question_text }}</span>
                 </div>
                 @if($question->images && count($question->images))
-                <div class="flex flex-wrap gap-4 my-3">
+                <div class="flex flex-wrap gap-3 my-3 justify-center">
                     @foreach($question->images as $img)
                         <figure class="flex flex-col items-center">
-                            <img src="{{ asset('storage/'.$img->image_url) }}" class="rounded shadow max-h-36 max-w-xs object-contain mb-1 border border-indigo-100">
+                            <img src="{{ asset('storage/'.$img->image_url) }}" class="rounded shadow max-h-32 max-w-[140px] object-contain mb-1 border border-indigo-100">
                         </figure>
                     @endforeach
                 </div>
                 @endif
 
-                {{-- PILIHAN JAWABAN MODEL BUTTON BESAR --}}
+                {{-- PILIHAN JAWABAN --}}
                 <div class="flex flex-col gap-2 mt-2">
                 @foreach ($question->options as $option)
                     <label class="w-full block cursor-pointer group">
@@ -85,8 +83,8 @@
         </div>
 
         {{-- Progress Bar Jawaban --}}
-        <div class="mb-6 mt-8">
-            <div class="flex justify-between text-xs mb-1">
+        <div class="mb-6 mt-10 sm:mt-12">
+            <div class="flex justify-between text-xs mb-2">
                 <span id="progress-label" class="text-yellow-700">0/{{ count($questions) }} Terjawab</span>
                 <span id="progress-percent" class="text-yellow-700">0%</span>
             </div>
@@ -95,7 +93,7 @@
             </div>
         </div>
 
-        <div class="flex justify-center mt-4">
+        <div class="flex justify-center mt-6 sm:mt-8">
             <button type="submit"
                 class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 px-4 py-2 rounded-lg font-bold w-full sm:w-auto shadow transition text-base">
                 Kumpulkan Jawaban
@@ -103,6 +101,7 @@
         </div>
     </form>
 </div>
+
 
 {{-- TIMER JS & PROGRESS BAR --}}
 @if($test->time_limit)
