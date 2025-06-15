@@ -41,14 +41,14 @@ class VideoResource extends Resource
         return $table
             ->columns([
 
-            // Tables\Columns\Textcolumn::make('description')
-            // ->label("Judul Video")   
-            // ->searchable(),
-
             Tables\Columns\TextColumn::make('videoable.title')
                 ->label('Materi')
                 ->sortable()
                 ->searchable(),
+            
+            Tables\Columns\Textcolumn::make('description')
+            ->label("Judul Video")   
+            ->searchable(),
             
             Tables\Columns\TextColumn::make('video_url')
                 ->label('Video URL')

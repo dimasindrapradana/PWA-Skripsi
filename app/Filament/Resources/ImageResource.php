@@ -35,9 +35,7 @@ class ImageResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\Textcolumn::make('description')
-                // ->label("Nama Gambar")   
-                // ->searchable(),
+              
             
                 Tables\Columns\TextColumn::make('imageable_title')
                 ->label('Materi')
@@ -48,7 +46,10 @@ class ImageResource extends Resource
                     }
             
                     return '-'; 
-                })
+                }),
+                 Tables\Columns\Textcolumn::make('description')
+                ->label("Nama Gambar")   
+                ->searchable(),
               
             ])
             ->filters([
