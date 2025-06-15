@@ -26,6 +26,14 @@ class LoginCustom extends Login
         if (Auth::attempt([$field => $data['login'], 'password' => $data['password']], $data['remember'] ?? false)) {
             session()->regenerate();
 
+            // ✅ Tambahan: pastikan hanya admin yang bisa login
+            if (Auth::user()->role !== 'admin') {
+                Auth::logout();
+                throw ValidationException::withMessages([
+                    'data.login' => 'Akun ini tidak memiliki akses sebagai admin.',
+                ]);
+            }
+
             return app(LoginResponse::class);
         }
 
@@ -56,7 +64,7 @@ class LoginCustom extends Login
 
     protected function getRedirectUrl(): string
     {
-        // setelah login, balik ke /admin (Dashboard Filament)
+        // Setelah login, redirect ke dashboard admin
         return url(config('filament.panels.admin.path'));
     }
 

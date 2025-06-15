@@ -19,14 +19,23 @@
   <meta name="theme-color" content="#0d6efd">
   <link rel="apple-touch-icon" href="{{ asset('icons/icon-192x192.png') }}">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="PWA Fotografi">
+  <meta name="mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="{{ asset('build/assets/app-0Qchtg2p.css') }}">
 
 </head>
 <body>
 
   @yield('content')
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker terdaftar!'))
+      .catch(error => console.log('Gagal mendaftarkan SW:', error));
+  }
+</script>
 
   @filamentScripts {{-- jika memakai Filament --}}
 </body>

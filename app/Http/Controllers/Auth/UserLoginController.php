@@ -27,15 +27,9 @@ class UserLoginController extends Controller
             ]);
         }
 
-        if (Auth::user()->role !== 'user') {
-            Auth::logout();
-
-            throw ValidationException::withMessages([
-                'email' => ['Akun ini tidak memiliki akses sebagai siswa.'],
-            ]);
-        }
+        
 
         return redirect()->route('user.dashboard');
-    }
+        }
 }
 

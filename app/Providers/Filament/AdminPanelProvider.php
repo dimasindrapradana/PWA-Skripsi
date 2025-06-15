@@ -18,6 +18,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Auth\LoginCustom;
+use App\Models\User;
 
 
 class AdminPanelProvider extends PanelProvider
@@ -56,5 +57,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+    public function canAccessPanel(User $user): bool
+    {
+    return $user->role === 'admin';
     }
 }
