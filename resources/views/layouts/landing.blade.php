@@ -3,11 +3,8 @@
 @section('title', 'Landing Page')
 
 @section('content')
-<link rel="stylesheet" href="/build/assets/app-YmFXhLMK.css">
 <div class="bg-slate-900 min-h-screen flex items-center justify-center px-2">
     <div class="w-full max-w-sm mx-auto bg-white/95 rounded-2xl shadow-xl py-8 px-5 flex flex-col items-center">
-
-        <img src="/logo.svg" alt="Logo PWA Fotografi" class="w-16 h-16 mb-3 rounded-full bg-indigo-50 shadow-sm">
 
         <h1 class="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-4 leading-snug tracking-tight">
             Selamat Datang <br>

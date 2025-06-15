@@ -24,10 +24,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Route::aliasMiddleware('role', RoleMiddleware::class);
-        Filament::serving(function () {
-        Filament::registerPages([
-            LoginCustom::class,
-        ]);
-    });
     }
 }

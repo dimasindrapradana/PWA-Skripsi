@@ -10,13 +10,17 @@
     use App\Http\Controllers\SubmissionController;
     use App\Http\Controllers\TestController;
     use App\Filament\Pages\Auth\LoginCustom;
+    use Filament\Http\Controllers\Auth\AuthenticatedSessionController;
 
     // ======================
     // ADMIN ROUTES
     // ======================
-    Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Route::post(
+    // config('filament.panels.admin.path') . '/login',
+    // [AuthenticatedSessionController::class, 'store'],)->name('filament.admin.auth.login.store');
+    // Route::middleware(['auth', 'role:admin'])->group(function () {
       
-    });
+    // });
 
     // ======================
     // AUTH & USER ROUTES
