@@ -164,7 +164,6 @@
 </div>
 
 
-
     {{-- SIDEBAR POPUP MATERI --}}
     <aside class="fixed inset-0 z-40 transition-all duration-300 ease-in-out" id="materialSidebar" aria-modal="true" role="dialog" style="transform: translateX(100%)">
         <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/40 transition-opacity opacity-0 pointer-events-none"></div>

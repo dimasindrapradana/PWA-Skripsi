@@ -16,27 +16,41 @@ class MaterialController extends Controller
             }
         }])->get();
 
-        foreach ($categories as $category) {
-            $category->materials->transform(function ($material) {
-                $material->content_plain = trim(strip_tags($material->content));
-                return $material;
-            });
-        }
+       foreach ($categories as $category) {
+        $category->materials_for_js = $category->materials->map(function ($m) {
+            return [
+                'id' => $m->id,
+                'title' => $m->title,
+                'slug' => $m->slug,
+                'content_plain' => mb_substr(strip_tags($m->content), 0, 110),
+            ];
+        })->values();
+    }
 
-        if ($search) {
-            $foundCategory = \App\Models\Category::where('name', 'like', "%$search%")->first();
-            if ($foundCategory) {
-                $categories = collect([$foundCategory->load('materials')]);
-            } else {
-                
-                $categories = $categories->filter(fn($cat) => $cat->materials->count() > 0);
-            }
-        }
+         // Filter jika pencarian berdasarkan kategori
+    if ($search) {
+        $foundCategory = \App\Models\Category::where('name', 'like', "%$search%")->first();
+        if ($foundCategory) {
+            $foundCategory->load('materials');
+            $foundCategory->materials_for_js = $foundCategory->materials->map(function ($m) {
+                return [
+                    'id' => $m->id,
+                    'title' => $m->title,
+                    'slug' => $m->slug,
+                    'content_plain' => mb_substr(strip_tags($m->content), 0, 110),
+                ];
+            })->values();
 
-        return view('materials.index', [
-            'categories' => $categories,
-            'search' => $search,
-        ]);
+            $categories = collect([$foundCategory]);
+        } else {
+            $categories = $categories->filter(fn($cat) => $cat->materials->count() > 0);
+        }
+    }
+
+    return view('materials.index', [
+        'categories' => $categories,
+        'search' => $search,
+    ]);
     }
     public function show($slug)
     {

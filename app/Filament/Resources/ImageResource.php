@@ -24,10 +24,10 @@ class ImageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('description')
-                ->label("Nama Gambar")
-                ->placeholder("Masukan nama gambar ... ")
-                ->required()
+                // Forms\Components\TextInput::make('description')
+                // ->label("Nama Gambar")
+                // ->placeholder("Masukan nama gambar ... ")
+                // ->required()
             ]);
     }
 

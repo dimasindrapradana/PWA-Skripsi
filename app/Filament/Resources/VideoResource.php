@@ -25,13 +25,13 @@ class VideoResource extends Resource
     {
         return $form
         ->schema([
-                Forms\Components\TextInput::make('video_url')
-                ->url()
-                ->placeholder("Masukan link video...")
-                ->required(),
-                Forms\Components\TextInput::make('description')->label("Judul Video") 
-                ->placeholder("Masukan judul video ... ") 
-                ->required()
+                // Forms\Components\TextInput::make('video_url')
+                // ->url()
+                // ->placeholder("Masukan link video...")
+                // ->required(),
+                // Forms\Components\TextInput::make('description')->label("Judul Video") 
+                // ->placeholder("Masukan judul video ... ") 
+                // ->required()
 
             ]);
     }
@@ -41,9 +41,9 @@ class VideoResource extends Resource
         return $table
             ->columns([
 
-            Tables\Columns\Textcolumn::make('description')
-            ->label("Judul Video")   
-            ->searchable(),
+            // Tables\Columns\Textcolumn::make('description')
+            // ->label("Judul Video")   
+            // ->searchable(),
 
             Tables\Columns\TextColumn::make('videoable.title')
                 ->label('Materi')
