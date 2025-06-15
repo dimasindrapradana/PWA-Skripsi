@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>@yield('title')</title>
+{{-- <link href="{{ asset('app.css') }}"rel="stylesheet"> --}}
 
   {{-- Vite akan inject CSS/JS hashed --}}
-  @vite([
+  {{-- @vite([
     'resources/css/app.css',
     'resources/js/app.js',
-  ])
+  ]) --}}
   @filamentStyles {{-- jika memakai Filament --}}
 
   {{-- PWA manifest & icons --}}
@@ -20,6 +21,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="PWA Fotografi">
+  <link rel="stylesheet" href="{{ asset('build/assets/app-0Qchtg2p.css') }}">
+
 </head>
 <body>
 

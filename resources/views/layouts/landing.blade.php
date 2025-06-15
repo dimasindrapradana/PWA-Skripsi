@@ -2,6 +2,7 @@
 
 @section('title', 'Landing Page')
 
+
 @section('content')
 <div class="bg-slate-900 min-h-screen flex items-center justify-center px-2">
     <div class="w-full max-w-sm mx-auto bg-white/95 rounded-2xl shadow-xl py-8 px-5 flex flex-col items-center">
