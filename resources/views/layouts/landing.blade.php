@@ -9,10 +9,10 @@
 
         <h1 class="text-2xl md:text-3xl font-bold text-slate-900 text-center mb-4 leading-snug tracking-tight">
             Selamat Datang <br>
-            di <span class="text-indigo-600">PWA Fotografi</span>
+            di <span class="text-indigo-600">Ruang Fotografi SKAGATA</span>
         </h1>
         <p class="text-slate-600 text-center mb-7 text-base">
-            Platform belajar <span class="font-medium text-indigo-700">Fotografi Digital</span> berbasis Progressive Web App. Pilih login sesuai peranmu.
+            Platform belajar <span class="font-medium text-indigo-700">Fotografi Dasar</span> berbasis Progressive Web App. Pilih login sesuai peranmu.
         </p>
 
         <a href="{{ route('login.user') }}"
@@ -25,7 +25,7 @@
         </a>
 
         <div class="mt-8 text-xs text-slate-400 text-center">
-            &copy; {{ date('Y') }} PWA Fotografi SMK 3 Yogyakarta
+            &copy; {{ date('Y') }} Ruang Fotografi SKAGATA
         </div>
     </div>
 </div>
