@@ -9,16 +9,29 @@
     use App\Http\Controllers\MaterialController;
     use App\Http\Controllers\SubmissionController;
     use App\Http\Controllers\TestController;
-    use App\Filament\Pages\Auth\LoginCustom;
-    use Filament\Http\Controllers\Auth\AuthenticatedSessionController;
+    use App\Http\Controllers\AdminLoginController;
 
     // ======================
     // ADMIN ROUTES
     // ======================
-    // Route::post(
-    // config('filament.panels.admin.path') . '/login',
-    // [AuthenticatedSessionController::class, 'store'],)->name('filament.admin.auth.login.store');
-    // Route::middleware(['auth', 'role:admin'])->group(function () {
+// Route::get('/admin/login', [AdminLoginController::class, 'show'])
+//      ->name('admin.login');
+
+// // Proses login
+// Route::post('/admin/login', [AdminLoginController::class, 'login'])
+//      ->name('admin.login.submit');
+
+// // Logout
+// Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
+//      ->name('admin.logout');
+
+// // Group admin-only (bisa dipakai untuk Filament dashboard atau route lainnya)
+// Route::middleware(['auth','role:admin'])->group(function(){
+//     // Redirect /admin ke Filament panel (jika mau)
+//     Route::get('/admin', function(){
+//         return redirect()->to('/filament'); 
+//     })->name('admin.dashboard');
+// });
       
     // });
 

@@ -2,7 +2,6 @@
 
 return [
 
-
     'panels' => [
         'admin' => [
             'path'     => 'admin',
