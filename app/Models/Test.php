@@ -19,6 +19,8 @@ class Test extends Model
     protected static function booted()
     {
         static::deleting(function ($test) {
+
+             $test->results()->delete();
             // Hapus seluruh pertanyaan satu per satu untuk memicu event deleting pada model Question
             foreach ($test->questions as $question) {
                 $question->delete();
@@ -48,6 +50,9 @@ class Test extends Model
     {
          return $this->morphMany(Video::class, 'videoable');
     }
-    
+    public function results()
+    {
+    return $this->hasMany(Result::class);
+    }
     protected $guarded=[];
 }
