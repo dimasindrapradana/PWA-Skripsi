@@ -14,15 +14,36 @@
             <div class="mb-6 space-y-4">
                 @foreach ($material->videos as $video)
                     @if ($video->video_url)
-                        <div>
-                            <div class="aspect-w-16 aspect-h-9 mb-2">
-                                <iframe 
-                                    class="w-full h-64 rounded-xl"
-                                    src="{{ Str::replace('watch?v=', 'embed/', $video->video_url) }}"
-                                    frameborder="0" allowfullscreen></iframe>
+                        @php
+                            $embedUrl = null;
+
+                            // YouTube - watch?v=... or shorts/...
+                            if (Str::contains($video->video_url, 'youtube.com/watch')) {
+                                $embedUrl = Str::replace('watch?v=', 'embed/', $video->video_url);
+                            } elseif (Str::contains($video->video_url, 'youtube.com/shorts')) {
+                                $videoId = Str::afterLast($video->video_url, '/shorts/');
+                                $embedUrl = 'https://www.youtube.com/embed/' . $videoId;
+                            }
+
+                            // TikTok
+                            if (Str::contains($video->video_url, 'tiktok.com')) {
+                                // Gunakan tiktok embed format
+                                $embedUrl = 'https://www.tiktok.com/embed/' . Str::after($video->video_url, '/video/');
+                            }
+                        @endphp
+
+                        @if ($embedUrl)
+                            <div>
+                                <div class="aspect-w-16 aspect-h-9 mb-2">
+                                    <iframe 
+                                        class="w-full h-64 rounded-xl"
+                                        src="{{ $embedUrl }}"
+                                        frameborder="0"
+                                        allowfullscreen></iframe>
+                                </div>
+                                <p class="text-sm text-slate-600">Video: {{ $video->description }}</p>
                             </div>
-                            <p class="text-sm text-slate-600">Video: {{ $video->description }}</p>
-                        </div>
+                        @endif
                     @endif
                 @endforeach
             </div>
@@ -36,6 +57,7 @@
                             <img src="{{ asset('storage/' . $image->image_url) }}"
                                 alt="{{ $image->description }}"
                                 class="rounded-xl mb-2 w-full max-w-xs object-contain max-h-64 mx-auto" />
+                                 <p class="text-sm text-slate-600">Gambar: {{ $image->description }}</p>
                         </div>
                     @endforeach
                 </div>
