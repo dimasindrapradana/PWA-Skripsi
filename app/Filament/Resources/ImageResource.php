@@ -37,16 +37,16 @@ class ImageResource extends Resource
             ->columns([
               
             
-                Tables\Columns\TextColumn::make('imageable_title')
-                ->label('Materi')
-                ->getStateUsing(function ($record) {
-                    // Cek apakah relasi adalah ke model Material
-                    if ($record->imageable_type === \App\Models\Material::class) {
-                        return $record->imageable?->title ?? '-';
-                    }
+                // Tables\Columns\TextColumn::make('imageable_title')
+                // ->label('Materi')
+                // ->getStateUsing(function ($record) {
+                //     // Cek apakah relasi adalah ke model Material
+                //     if ($record->imageable_type === \App\Models\Material::class) {
+                //         return $record->imageable?->title ?? '-';
+                //     }
             
-                    return '-'; 
-                }),
+                //     return '-'; 
+                // }),
                  Tables\Columns\Textcolumn::make('description')
                 ->label("Nama Gambar")   
                 ->searchable(),
