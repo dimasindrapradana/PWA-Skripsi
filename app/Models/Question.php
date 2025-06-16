@@ -11,7 +11,6 @@ class Question extends Model
         static::deleting(function ($question) {
             $question->options()->delete();
             $question->images()->delete();
-            $question->videos()->delete();
         });
     }
         public function options()
