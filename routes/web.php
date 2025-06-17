@@ -10,30 +10,10 @@
     use App\Http\Controllers\SubmissionController;
     use App\Http\Controllers\TestController;
     use App\Http\Controllers\AdminLoginController;
+    use App\Http\Controllers\Auth\ForgotPasswordController;
+    use App\Http\Controllers\Auth\ResetPasswordController;
 
-    // ======================
-    // ADMIN ROUTES
-    // ======================
-// Route::get('/admin/login', [AdminLoginController::class, 'show'])
-//      ->name('admin.login');
 
-// // Proses login
-// Route::post('/admin/login', [AdminLoginController::class, 'login'])
-//      ->name('admin.login.submit');
-
-// // Logout
-// Route::post('/admin/logout', [AdminLoginController::class, 'logout'])
-//      ->name('admin.logout');
-
-// // Group admin-only (bisa dipakai untuk Filament dashboard atau route lainnya)
-// Route::middleware(['auth','role:admin'])->group(function(){
-//     // Redirect /admin ke Filament panel (jika mau)
-//     Route::get('/admin', function(){
-//         return redirect()->to('/filament'); 
-//     })->name('admin.dashboard');
-// });
-      
-    // });
 
     // ======================
     // AUTH & USER ROUTES
@@ -49,6 +29,13 @@
     // Register custom untuk admin
     Route::get('/register-custom', [RegisterCustomController::class, 'show'])->name('register.custom.show');
     Route::post('/register-custom', [RegisterCustomController::class, 'register'])->name('register.custom');
+
+    
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
     
     Route::get('/', fn () => view('layouts.landing'));

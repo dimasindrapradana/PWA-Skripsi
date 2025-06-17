@@ -27,6 +27,10 @@
                     class="w-full px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-400 transition text-sm"
                     placeholder="masukan password">
             </div>
+            <div class="text-right text-xs mt-2">
+                <a href="{{ route('password.request') }}" class="text-indigo-500 hover:underline">Lupa Password?</a>
+            </div>
+
             <button type="submit"
                 class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-bold tracking-wide shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all">
                 Masuk
