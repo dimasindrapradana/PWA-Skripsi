@@ -54,23 +54,24 @@ class MaterialController extends Controller
     }
     public function show($slug)
     {
-        $material = Material::with(['category.materials', 'tests'])->where('slug', $slug)->firstOrFail();
+        $material = Material::with(['category', 'tests'])->where('slug', $slug)->firstOrFail();
+    
+        $categories = \App\Models\Category::with([
+            'materials' => function ($q) {
+                $q->orderBy('title');
+            },
+            'tests' 
+        ])->get();
 
-
-        // Ambil semua materi dalam kategori untuk navigasi
+        // Cari posisi sekarang untuk tombol sebelumnya & selanjutnya (di dalam kategori aktif saja)
         $materials = $material->category->materials;
-
-        $currentIndex = $materials->search(function ($m) use ($material) {
-            return $m->id === $material->id;
-        });
-
+        $currentIndex = $materials->search(fn($m) => $m->id === $material->id);
         $previous = $materials[$currentIndex - 1] ?? null;
         $next = $materials[$currentIndex + 1] ?? null;
 
-        // Cek apakah materi ini punya quiz (test)
         $hasQuiz = $material->tests && $material->tests->count() > 0;
 
-        return view('layouts.material', compact('material', 'materials', 'previous', 'next', 'hasQuiz'));
+        return view('layouts.material', compact('material', 'categories', 'previous', 'next', 'hasQuiz'));
     }
     public function autocomplete(Request $request)
     {

@@ -67,7 +67,7 @@
         </div>
 
         <section class="mb-12">
-            <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center">Path Pembelajaran</h2>
+            <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center">Urutan Materi</h2>
             <div class="w-full overflow-x-auto pb-4">
                 <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 px-2 sm:px-0">
                     @foreach ($category->materials as $index => $material)
@@ -77,10 +77,10 @@
                                 {{ $loop->iteration }}
                             </div>
                             <!-- Card -->
-                            <a class="group bg-white rounded-xl shadow-lg p-3 sm:p-4 border border-slate-200 text-center hover:scale-105 transition-all duration-150 w-full">
+                            <div class="bg-white rounded-xl shadow-sm p-3 sm:p-4 border border-slate-200 text-center w-full">
                                 <h4 class="text-base font-bold text-indigo-800 mb-1">{{ $material->title }}</h4>
                                 <p class="text-xs text-gray-600">{{ Str::limit($material->description, 60) }}</p>
-                            </a>
+                            </div>
                         </div>
                     @endforeach
                 </div>

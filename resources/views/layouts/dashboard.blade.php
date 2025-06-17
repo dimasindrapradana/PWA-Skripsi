@@ -15,6 +15,22 @@
             <p class="text-base text-slate-700 mb-1">Ayo lanjutkan perjalanan fotografimu hari ini.</p>
             <p class="text-sm text-indigo-500 italic">"Belajar adalah jendela dunia. Setiap klik kamera adalah ilmu baru!"</p>
         </div>
+        {{-- Promo Install PWA --}}
+        <div id="pwa-install-banner"
+            class="hidden bg-indigo-50 border border-indigo-200 rounded-2xl p-6 sm:p-8 shadow-md text-center transition"
+            data-aos="fade-down">
+            <h2 class="text-2xl font-extrabold text-indigo-800 mb-2">📱 Pasang Aplikasi Ini!</h2>
+            <p class="text-slate-700 text-sm mb-4">
+                Ingin belajar lebih nyaman? Pasang aplikasi Ruang Fotografi langsung di layar utama perangkatmu.
+            </p>
+            <button id="installBtn"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition">
+                Pasang Sekarang
+            </button>
+            <p class="text-xs text-slate-500 mt-3">
+                Pengguna iPhone: Buka di Safari, lalu pilih <strong>Share → Add to Home Screen</strong>
+            </p>
+        </div>
 
         {{-- Daftar Kategori Materi --}}
         <div>
@@ -56,6 +72,31 @@
         <div class="mt-8 text-center text-sm text-indigo-600 font-medium italic">
             "Practice makes perfect! Jangan ragu untuk belajar dan mencoba kuis berkali-kali."
         </div>
+        <script>
+            let deferredPrompt;
+            const installBtn = document.getElementById('installBtn');
+            const banner = document.getElementById('pwa-install-banner');
+
+            // Simpan event jika memenuhi syarat
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                banner.style.display = 'block';
+            });
+
+            // Klik tombol install
+            installBtn?.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const result = await deferredPrompt.userChoice;
+                    if (result.outcome === 'accepted') {
+                        banner.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                }
+            });
+        </script>
+
   </main>
 </div>
 @include('components.footer')

@@ -186,39 +186,74 @@
 </div>
 
 
-    {{-- SIDEBAR POPUP MATERI --}}
-    <aside class="fixed inset-0 z-40 transition-all duration-300 ease-in-out" id="materialSidebar" aria-modal="true" role="dialog" style="transform: translateX(100%)">
-        <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/40 transition-opacity opacity-0 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 h-full w-80 max-w-full bg-white shadow-2xl flex flex-col transition-transform"
-            style="transform: translateX(100%);" id="sidebarContent">
-            <div class="p-6 flex flex-col h-full">
-                <div class="flex items-center justify-between mb-4">
-                    <span class="font-semibold text-lg text-indigo-700">{{ $material->category->name }}</span>
-                    <button type="button" id="sidebarClose" class="text-slate-400 hover:text-red-400 transition">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex-1 overflow-y-auto max-h-[calc(100vh-80px)] pr-2">
-                    @foreach ($materials->groupBy('category_id') as $group)
-                        <div class="mb-6">
-                            <div class="text-xs uppercase text-slate-500 font-semibold mb-2">Materi</div>
-                            <div class="grid gap-3">
-                                @foreach ($group as $item)
+{{-- SIDEBAR POPUP MATERI --}}
+<aside class="fixed inset-0 z-40 transition-all duration-300 ease-in-out" id="materialSidebar" aria-modal="true" role="dialog" style="transform: translateX(100%)">
+    <div id="sidebarOverlay" class="absolute inset-0 bg-slate-900/40 transition-opacity opacity-0 pointer-events-none"></div>
+    <div class="absolute right-0 top-0 h-full w-80 max-w-full bg-white shadow-2xl flex flex-col transition-transform"
+        style="transform: translateX(100%);" id="sidebarContent">
+        <div class="p-6 flex flex-col h-full" x-data="{ openCategory: {{ $material->category->id }} }">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-lg text-indigo-700">Navigasi Materi</span>
+                <button type="button" id="sidebarClose" class="text-slate-400 hover:text-red-400 transition">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto max-h-[calc(100vh-80px)] pr-2">
+                @foreach ($categories as $category)
+                    <div class="mb-4">
+                        <button @click="openCategory = openCategory === {{ $category->id }} ? null : {{ $category->id }}"
+                                class="w-full flex items-center justify-between text-indigo-600 font-semibold hover:underline mb-1 transition">
+                            <span>{{ $category->name }}</span>
+                            <svg :class="openCategory === {{ $category->id }} ? 'rotate-180' : 'rotate-0'"
+                                 class="w-4 h-4 transform transition-transform duration-200"
+                                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="openCategory === {{ $category->id }}" x-transition>
+                            <div class="grid gap-2 pl-2 border-l border-indigo-200 mt-2">
+                                {{-- Link Pengantar Kategori --}}
+                                <a href="{{ route('kategori.show', $category->slug) }}"
+                                   class="block p-2 rounded-xl bg-yellow-100 text-yellow-800 border border-yellow-300 text-sm font-medium hover:bg-yellow-200 transition">
+                                    Pengantar {{ $category->name }}
+                                </a>
+                               
+
+                                {{-- Daftar Materi --}}
+                                @foreach ($category->materials as $item)
                                     <a href="{{ route('materi.show', $item->slug) }}"
-                                    class="block p-3 rounded-xl border transition font-medium
-                                        {{ $item->id === $material->id ? 'bg-indigo-100 border-indigo-500 text-indigo-700 shadow-lg' : 'bg-slate-50 hover:bg-indigo-50 border-slate-200 text-slate-800' }}">
-                                        <div class="truncate font-semibold text-base">{{ $item->title }}</div>
+                                       class="block p-2 rounded-xl border text-sm transition
+                                       {{ $item->id === $material->id ? 'bg-indigo-100 border-indigo-500 text-indigo-700 shadow-md' : 'bg-slate-50 hover:bg-indigo-100 border-slate-200 text-slate-800' }}">
+                                        {{ $item->title }}
                                     </a>
                                 @endforeach
+                                {{-- Daftar quis --}}
+                                  {{-- Daftar Kuis (diletakkan paling akhir) --}}
+                                @if ($category->tests->count())
+                                    <div class="mt-3 border-t pt-2 border-slate-200">
+                                        <span class="text-[11px] uppercase text-slate-400 font-semibold">Kuis</span>
+                                        <div class="grid gap-2 mt-1">
+                                            @foreach ($category->tests as $test)
+                                                <a href="{{ route('quiz.show', $test->slug) }}"
+                                                class="block p-2 rounded-xl bg-white border text-sm text-blue-700 hover:bg-blue-50 border-blue-200 transition">
+                                                    📝 {{ $test->title }}
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-    </aside>
+    </div>
+</aside>
+
+
 
     {{-- SCRIPT TOGGLE SIDEBAR --}}
     <script>

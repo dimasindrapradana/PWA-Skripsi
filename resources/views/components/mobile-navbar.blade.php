@@ -33,7 +33,7 @@
         </svg>
         <span class="text-[11px] leading-none text-center w-full">Materi</span>
     </a>
-    <form method="POST" action="{{ route('logout') }}" class="flex flex-col items-center flex-1">
+    <form method="POST" action="{{ route('logout') }}" class="flex flex-col items-center flex-1"onsubmit="return confirm('Yakin ingin keluar dari akun?')">
         @csrf
         <button type="submit"
            class="flex flex-col items-center text-slate-600 hover:text-red-500 hover:scale-110 transition-all duration-200">

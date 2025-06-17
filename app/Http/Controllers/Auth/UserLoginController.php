@@ -17,8 +17,8 @@ class UserLoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        'email' => ['required', 'email'],
+        'password' => ['required'],
         ]);
 
         if (! Auth::attempt($credentials)) {
@@ -27,9 +27,13 @@ class UserLoginController extends Controller
             ]);
         }
 
-        
+        $user = Auth::user();
 
-        return redirect()->route('user.dashboard');
+        if ($user->role === 'admin') {
+            return redirect()->intended('/admin'); // Filament Panel
         }
+
+        return redirect()->route('user.dashboard'); // Dashboard siswa
+     }
 }
 

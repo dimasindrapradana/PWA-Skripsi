@@ -23,6 +23,7 @@
   <meta name="apple-mobile-web-app-title" content="PWA Fotografi">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="{{ asset('build/assets/app-0Qchtg2p.css') }}">
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
 <body>
