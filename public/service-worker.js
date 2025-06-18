@@ -7,42 +7,48 @@ const urlsToCache = [
   '/images/Logo rfskagata.png',
 ];
 
-// Install Service Worker dan cache asset penting
+// Precache saat install
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// Hapus cache lama saat SW baru aktif
+// Bersihkan cache lama saat activate
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(name => name !== CACHE_NAME)
-          .map(name => caches.delete(name))
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys
+        .filter(key => key !== CACHE_NAME)
+        .map(key => caches.delete(key))
+      )
+    )
   );
 });
 
-// Intersep request dan gunakan cache jika tersedia
+// Intersep semua GET request
 self.addEventListener('fetch', event => {
-  // Lewatkan request dari luar origin (misal Google Fonts)
-  if (!event.request.url.startsWith(self.location.origin)) return;
+  if (event.request.method !== 'GET') return;
 
+  const requestURL = new URL(event.request.url);
+
+  // Lewati request ke luar origin
+  if (requestURL.origin !== location.origin) return;
+
+  // Gunakan cache dulu, jika gagal fetch, lalu fallback
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return (
-        response ||
-        fetch(event.request).catch(() =>
-          // Fallback halaman jika offline dan tidak ada cache
-          caches.match('/')
-        )
-      );
-    })
+    fetch(event.request)
+      .then(networkResponse => {
+        // Simpan ke cache untuk nanti
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        });
+      })
+      .catch(() =>
+        caches.match(event.request).then(response => {
+          return response || caches.match('/offline');
+        })
+      )
   );
 });
