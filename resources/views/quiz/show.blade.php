@@ -146,7 +146,7 @@ function updateAnswerProgress() {
     radios.forEach(q => {
         if(q.checked) soalUnik.add(q.name);
         // highlight pilihan yang dipilih
-        const block = q.parentElement.querySelector('.pilihan-block');
+        const block = q.closest('label').querySelector('div');
         if(q.checked){
             block.classList.add('bg-yellow-400', 'border-yellow-400', 'text-yellow-900');
             block.classList.remove('bg-slate-50');
