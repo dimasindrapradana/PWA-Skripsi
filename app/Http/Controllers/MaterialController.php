@@ -55,10 +55,17 @@ class MaterialController extends Controller
     public function show($slug)
     {
         $material = Material::with(['category', 'tests'])->where('slug', $slug)->firstOrFail();
+
+         if (auth()->check()) {
+        $user = auth()->user();
+        $user->readMaterials()->syncWithoutDetaching([
+            $material->id => ['has_read' => true]
+        ]);
+    }
     
         $categories = \App\Models\Category::with([
             'materials' => function ($q) {
-                $q->orderBy('title');
+                $q->orderBy('id');
             },
             'tests' 
         ])->get();
@@ -71,7 +78,12 @@ class MaterialController extends Controller
 
         $hasQuiz = $material->tests && $material->tests->count() > 0;
 
-        return view('layouts.material', compact('material', 'categories', 'previous', 'next', 'hasQuiz'));
+        $readMaterialIds = auth()->check()
+        ? auth()->user()->readMaterials()->pluck('material_id')->toArray()
+        : [];
+
+        return view('layouts.material', compact('material', 'categories', 'previous', 'next', 'hasQuiz', 'readMaterialIds'));
+
     }
     public function autocomplete(Request $request)
     {

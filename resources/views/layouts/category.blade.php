@@ -66,30 +66,29 @@
             @endif
         </div>
 
-        <section class="mb-12">
+       <section class="mb-12">
             <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center">Urutan Materi</h2>
-            <div class="w-full overflow-x-auto pb-4">
-                <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 px-2 sm:px-0">
+            <div class="w-full px-4 max-w-3xl mx-auto relative">
+                <div class="absolute left-7 top-5 bottom-5 w-1 bg-indigo-200 rounded-full z-0 hidden sm:block"></div>
+                <div class="flex flex-col gap-6 relative z-10">
                     @foreach ($category->materials as $index => $material)
-                        <div class="relative flex flex-col items-center min-w-[200px] sm:min-w-[220px]">
-                            <!-- Nomor -->
-                            <div class="z-10 w-10 h-10 bg-indigo-700 text-white flex items-center justify-center font-bold text-lg rounded-full shadow mb-3 border-4 border-white">
+                        <div class="relative flex items-start gap-4">
+                            <!-- Bulatan Nomor -->
+                            <div class="flex items-center justify-center w-10 h-10 flex-shrink-0 rounded-full bg-indigo-700 text-white font-bold text-sm border-4 border-white shadow">
                                 {{ $loop->iteration }}
                             </div>
-                            <!-- Card -->
-                            <div class="bg-white rounded-xl shadow-sm p-3 sm:p-4 border border-slate-200 text-center w-full">
+                            <!-- Konten -->
+                            <div class="bg-white rounded-xl shadow-sm p-4 border border-slate-200 w-full">
                                 <h4 class="text-base font-bold text-indigo-800 mb-1">{{ $material->title }}</h4>
-                                <p class="text-xs text-gray-600">{{ Str::limit($material->description, 60) }}</p>
+                                <p class="text-sm text-gray-600">{{ Str::limit($material->description, 80) }}</p>
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
-             <style>
-                .overflow-x-auto::-webkit-scrollbar { display: none; }
-                .overflow-x-auto { scrollbar-width: none; -ms-overflow-style: none; }
-            </style>
         </section>
+
+
     </main>
     @include('components.footer')
 </div>

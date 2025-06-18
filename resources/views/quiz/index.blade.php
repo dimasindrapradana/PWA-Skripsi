@@ -49,10 +49,17 @@
                             <p class="text-sm text-indigo-700 mb-2 font-semibold">Materi: {{ $test->material->title ?? '-' }}</p>
                         </div>
                         <div class="mt-3 flex flex-wrap gap-2">
-                            <a href="{{ route('quiz.show', $test->slug) }}"
+                            @if(in_array($test->material_id, $readMaterialIds))
+                                <a href="{{ route('quiz.show', $test->slug) }}"
                                 class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold px-5 py-2 rounded-lg shadow transition text-sm">
                                 {{ $isPassed ? 'Kerjakan Ulang' : 'Kerjakan' }}
-                            </a>
+                                </a>
+                            @else
+                                <button onclick="alert('Silakan baca materi terlebih dahulu sebelum mengerjakan kuis.')"
+                                    class="bg-slate-200 text-slate-500 font-bold px-5 py-2 rounded-lg shadow text-sm cursor-not-allowed">
+                                    {{ $isPassed ? 'Kerjakan Ulang' : 'Kerjakan' }}
+                                </button>
+                            @endif
                             @if($result)
                                 <a href="{{ route('quiz.result', $result->slug) }}"
                                     class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-5 py-2 rounded-lg font-semibold shadow transition text-sm">

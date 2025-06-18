@@ -58,4 +58,10 @@ class User extends Authenticatable
             ->withPivot(['has_read', 'submitted_task', 'completed_quiz'])
             ->withTimestamps();
     }
+    public function readMaterials()
+    {
+    return $this->belongsToMany(Material::class)
+                ->withPivot(['has_read', 'submitted_task', 'completed_quiz'])
+                ->withTimestamps();
+    }
 }

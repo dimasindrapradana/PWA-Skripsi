@@ -50,18 +50,35 @@
             @endif
 
             {{-- IMAGES --}}
-           @if ($material->images->count())
+           <div x-data="{ open: false, imageUrl: '', imageDesc: '' }">
                 <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
                     @foreach ($material->images as $image)
                         <div class="bg-white p-3 rounded-2xl shadow-lg flex flex-col items-center w-full max-w-[330px] transition hover:scale-105">
-                            <img src="{{ asset('storage/' . $image->image_url) }}"
+                            <img @click="open = true; imageUrl = '{{ asset('storage/' . $image->image_url) }}'; imageDesc = '{{ $image->description }}'"
+                                src="{{ asset('storage/' . $image->image_url) }}"
                                 alt="{{ $image->description }}"
-                                class="rounded-xl mb-2 w-full max-w-xs object-contain max-h-64 mx-auto" />
-                                 <p class="text-sm text-slate-600">Gambar: {{ $image->description }}</p>
+                                class="rounded-xl mb-2 w-full max-w-xs object-contain max-h-64 mx-auto cursor-zoom-in" />
+                            <p class="text-sm text-slate-600">Gambar: {{ $image->description }}</p>
                         </div>
                     @endforeach
                 </div>
-            @endif
+
+                <!-- Modal Zoom -->
+                <div x-show="open" 
+                    x-transition 
+                    x-cloak
+                    class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div @click.away="open = false" class="relative max-w-3xl w-full px-4">
+                        <button @click="open = false"
+                                class="absolute -top-4 -right-4 text-black text-2xl font-bold    rounded-full w-8 h-8 flex items-center justify-center shadow-lg">
+                            &times;
+                        </button>
+                        <img :src="imageUrl" :alt="imageDesc" class="rounded-xl max-h-[90vh] mx-auto object-contain w-full">
+                        <p class="mt-2 text-white text-center text-sm" x-text="imageDesc"></p>
+                    </div>
+                </div>
+            </div>
+
 
             {{-- KONTEN HTML --}}
             <div class="prose max-w-none mb-8 text-justify">
@@ -230,16 +247,23 @@
                                     </a>
                                 @endforeach
                                 {{-- Daftar quis --}}
-                                  {{-- Daftar Kuis (diletakkan paling akhir) --}}
+                                 
                                 @if ($category->tests->count())
                                     <div class="mt-3 border-t pt-2 border-slate-200">
                                         <span class="text-[11px] uppercase text-slate-400 font-semibold">Kuis</span>
                                         <div class="grid gap-2 mt-1">
                                             @foreach ($category->tests as $test)
-                                                <a href="{{ route('quiz.show', $test->slug) }}"
-                                                class="block p-2 rounded-xl bg-white border text-sm text-blue-700 hover:bg-blue-50 border-blue-200 transition">
+                                                @if(in_array($test->material_id, $readMaterialIds))
+                                                    <a href="{{ route('quiz.show', $test->slug) }}"
+                                                    class="block p-2 rounded-xl bg-white border text-sm text-blue-700 hover:bg-blue-50 border-blue-200 transition">
                                                     📝 {{ $test->title }}
-                                                </a>
+                                                    </a>
+                                                @else
+                                                    <button onclick="alert('Silakan baca materi terkait terlebih dahulu untuk membuka kuis ini.')"
+                                                        class="block w-full text-left p-2 rounded-xl bg-slate-100 border text-sm text-slate-400 border-slate-300 cursor-not-allowed">
+                                                        📝 {{ $test->title }}
+                                                    </button>
+                                                @endif
                                             @endforeach
                                         </div>
                                     </div>

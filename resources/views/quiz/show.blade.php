@@ -57,26 +57,33 @@
 
                 {{-- PILIHAN JAWABAN --}}
                 <div class="flex flex-col gap-2 mt-2">
-                @foreach ($question->options as $option)
-                    <label class="w-full block cursor-pointer group">
-                        <input 
-                            type="radio"
-                            name="answers[{{ $question->id }}]"
-                            value="{{ $option->id }}"
-                            class="hidden pilihan-jawaban"
-                            onchange="updateAnswerProgress()"
-                            required>
-                        <div class="w-full rounded-lg py-3 px-4 border border-slate-200 bg-slate-50 group-hover:bg-yellow-50 transition-all
-                            font-medium text-slate-900 flex items-center gap-2 shadow-sm
-                            peer-checked:bg-yellow-400 peer-checked:border-yellow-400 peer-checked:text-yellow-900
-                            pilihan-block"
-                            style="transition:.16s"
-                        >
-                            <span class="w-4 h-4 rounded-full border-2 border-slate-400 mr-2 flex-shrink-0 bg-white group-checked:border-yellow-400"></span>
-                            <span class="flex-1">{{ $option->option_text }}</span>
-                        </div>
-                    </label>
-                @endforeach
+               @php
+    $optionLabels = ['A.', 'B.', 'C.', 'D.', 'E.'];
+@endphp
+
+                    @foreach ($question->options as $optIndex => $option)
+                        <label class="block cursor-pointer">
+                            <input 
+                                type="radio"
+                                name="answers[{{ $question->id }}]"
+                                value="{{ $option->id }}"
+                                class="peer hidden pilihan-jawaban"
+                                onchange="updateAnswerProgress()"
+                                required>
+                            <div class="flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-slate-50
+                                        peer-checked:bg-yellow-400 peer-checked:border-yellow-400 peer-checked:text-yellow-900
+                                        hover:bg-yellow-50 transition-all shadow-sm">
+                                {{-- Label huruf A/B/C --}}
+                                <div class="w-7 h-7 rounded-full text-black font-bold text-sm flex items-center justify-center shrink-0">
+                                    {{ $optionLabels[$optIndex] ?? '?' }}
+                                </div>
+                                {{-- Teks jawaban --}}
+                                <div class="flex-1 text-sm sm:text-base font-medium">
+                                    {{ $option->option_text }}
+                                </div>
+                            </div>
+                        </label>
+                    @endforeach
                 </div>
             </div>
         @endforeach

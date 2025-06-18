@@ -34,7 +34,12 @@ class TestController extends Controller
    
         $categories = \App\Models\Category::whereHas('materials.tests')->get();
 
-    return view('quiz.index', compact('tests', 'userResults', 'categories'));
+     $readMaterialIds = auth()->check()
+        ? auth()->user()->readMaterials()->pluck('material_id')->toArray()
+        : [];
+
+   
+    return view('quiz.index', compact('tests', 'userResults', 'categories', 'readMaterialIds'));
     }
 
     // Halaman detail & pengerjaan kuis
@@ -44,6 +49,19 @@ class TestController extends Controller
             ->with(['questions.options', 'material'])
             ->firstOrFail();
 
+        $material = $test->material;
+        $user = auth()->user();
+
+    // CEK apakah user sudah membaca materi terkait (dari tabel pivot)
+        $hasRead = $user->readMaterials()
+            ->where('material_id', $material->id)
+            ->wherePivot('has_read', true)
+            ->exists();
+
+        if (! $hasRead) {
+            return redirect()->route('materi.show', $material->slug)
+                ->with('error', 'Silakan pelajari materi terlebih dahulu sebelum mengerjakan kuis.');
+        }
         $questions = $test->questions->shuffle()->take(10);
 
         $material = $test->material;

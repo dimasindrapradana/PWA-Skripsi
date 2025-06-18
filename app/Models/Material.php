@@ -52,6 +52,13 @@ class Material extends Model
     {
     return $this->hasMany(\App\Models\Submission::class);
     }
+    
+    public function readers()
+    {
+    return $this->belongsToMany(User::class)
+                ->withPivot(['has_read', 'submitted_task', 'completed_quiz'])
+                ->withTimestamps();
+    }
 
 
     protected $guarded=[];
