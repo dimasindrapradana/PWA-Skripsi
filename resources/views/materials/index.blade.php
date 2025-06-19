@@ -23,12 +23,8 @@
     @foreach($categories as $category)
         <div class="mb-14">
             <div class="flex flex-col sm:flex-row items-center gap-3 mb-4">
-                <div class="mb-4">
-                    <h2 class="text-xl sm:text-2xl font-bold text-indigo-700 mb-2">{{ $category->name }}</h2>
-                    <div class="prose max-w-none text-slate-600 text-sm">
-                        {!! $category->description !!}
-                    </div>
-                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-indigo-700 flex-shrink-0">{{ $category->name }}</h2>
+                <span class="h-2 w-32 bg-indigo-200 rounded-full sm:ml-2"></span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -37,7 +33,7 @@
                         <div>
                             <h3 class="text-lg font-bold text-indigo-800 mb-2">{{ $material->title }}</h3>
                             <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($material->content), 110) }}
+                                {{ Str::limit(strip_tags(html_entity_decode($material->content)), 110) }}
                             </p>
                         </div>
                         <a href="{{ route('materi.show', $material->slug) }}"
