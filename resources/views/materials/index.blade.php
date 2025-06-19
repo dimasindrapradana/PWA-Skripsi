@@ -23,8 +23,12 @@
     @foreach($categories as $category)
         <div class="mb-14">
             <div class="flex flex-col sm:flex-row items-center gap-3 mb-4">
-                <h2 class="text-xl sm:text-2xl font-bold text-indigo-700 flex-shrink-0">{{ $category->name }}</h2>
-                <span class="h-2 w-32 bg-indigo-200 rounded-full sm:ml-2"></span>
+                <div class="mb-4">
+                    <h2 class="text-xl sm:text-2xl font-bold text-indigo-700 mb-2">{{ $category->name }}</h2>
+                    <div class="prose max-w-none text-slate-600 text-sm">
+                        {!! $category->description !!}
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
